@@ -24,6 +24,7 @@ class _Sign_InState extends State<Sign_In> {
               print("Error in Sign in Anonymously");
             }else{
               print("Signed in Anonymously");
+              print(result.uid);
             }
           },
           child: const Text("Sign In Anonymously")),
