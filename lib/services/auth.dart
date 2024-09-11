@@ -16,7 +16,6 @@ class AuthServices{
     return _auth.authStateChanges().map(_userwithFirebaseUserUid);
   }
 
-
   //Sign in anonymous
   // Future ==> async ==> await
   Future signInAnonymous() async{
