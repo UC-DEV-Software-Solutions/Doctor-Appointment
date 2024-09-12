@@ -31,4 +31,12 @@ class AuthServices{
   //Register using Email and Password
   //Sign in using Gmail
   //SignOut
+  Future signOut() async{
+    try{
+      return await _auth.signOut();
+    }catch(err){
+      print(err.toString());
+      return null;
+    }
+  }
 }
