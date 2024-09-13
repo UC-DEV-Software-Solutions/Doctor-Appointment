@@ -1,8 +1,5 @@
-import 'dart:js/js_wasm.dart';
 
 import 'package:firebase_testing/constants/colours.dart';
-import 'package:firebase_testing/constants/description.dart';
-import 'package:firebase_testing/constants/styles.dart';
 import 'package:firebase_testing/services/auth.dart';
 import 'package:flutter/material.dart';
 
@@ -44,7 +41,7 @@ class _Sign_InState extends State<Sign_In> {
                 child: Image.asset('assets/images/covid-19.png',
                 height: 500,)
             ) ,
-            Form(child: Column(
+            const Form(child: Column(
               children: [
                 // email
                 // password
