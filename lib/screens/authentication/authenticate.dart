@@ -1,3 +1,4 @@
+import 'package:firebase_testing/screens/authentication/register.dart';
 import 'package:firebase_testing/screens/authentication/sign_in.dart';
 import 'package:flutter/material.dart';
 
