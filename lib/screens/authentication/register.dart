@@ -22,6 +22,7 @@ class _RegisterState extends State<Register> {
   // Email Password States
   String email = "";
   String password = "";
+  String error = "";
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +65,7 @@ class _RegisterState extends State<Register> {
                       children: [
                         // email
                         TextFormField(
+                          style: textFormStyle,
                           decoration: textInputDecorations,
                           validator: (value)=>
                           value?.isEmpty == true ? "Enter a valid email" : null,
@@ -76,6 +78,7 @@ class _RegisterState extends State<Register> {
                         const SizedBox(height: 20,),
                         // password
                         TextFormField(
+                          style: textFormStyle,
                           decoration: textInputDecorations.copyWith(hintText: "Password"),
                           validator: (value)=>
                           value!.length < 6 ? "Enter a valid password" : null,
@@ -89,6 +92,8 @@ class _RegisterState extends State<Register> {
                         const SizedBox(
                           height: 20,
                         ),
+                        // error
+                        Text(error, style: const TextStyle(color: Colors.red),),
                         const Text(
                             "Login with social accounts",
                             style: descriptionStyle
@@ -102,7 +107,7 @@ class _RegisterState extends State<Register> {
                           ),
                         ) ,
                         const SizedBox(height: 20),
-                        // register
+                        // Sign In Page
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -126,8 +131,18 @@ class _RegisterState extends State<Register> {
                         const SizedBox(height: 20),
                         // button
                         GestureDetector(
-                          // Method For Login User
-                          onTap: (){},
+                          // Method For Register User
+                          onTap: () async {
+                            dynamic result = await _auth.registerWithEmailAndPassword(
+                                email, password);
+                            if(result == null){
+                              // error
+                              setState(() {
+                                error = "Please enter a valid email";
+                              });
+                            }
+
+                          },
 
                           child: Container(
                               height: 40,

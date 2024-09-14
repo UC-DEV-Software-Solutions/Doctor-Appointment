@@ -7,6 +7,10 @@ const TextStyle descriptionStyle = TextStyle(
   fontWeight: FontWeight.w200
 );
 
+const TextStyle textFormStyle = TextStyle(
+  color: mainBlue,
+);
+
 const textInputDecorations = InputDecoration(
     hintText: "Email",
     hintStyle: TextStyle(color: textLight , fontSize: 15),

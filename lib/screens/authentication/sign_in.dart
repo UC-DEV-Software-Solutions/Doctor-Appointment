@@ -65,6 +65,7 @@ class _Sign_InState extends State<Sign_In> {
                   children: [
                     // email
                     TextFormField(
+                      style: textFormStyle,
                       decoration: textInputDecorations,
                       validator: (value)=>
                       value?.isEmpty == true ? "Enter a valid email" : null,
@@ -77,6 +78,7 @@ class _Sign_InState extends State<Sign_In> {
                     const SizedBox(height: 20,),
                     // password
                     TextFormField(
+                      style: textFormStyle,
                       decoration: textInputDecorations.copyWith(hintText: "Password"),
                       validator: (value)=>
                       value!.length < 6 ? "Enter a valid password" : null,
