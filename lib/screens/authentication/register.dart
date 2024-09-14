@@ -5,7 +5,8 @@ import '../../constants/styles.dart';
 import '../../services/auth.dart';
 
 class Register extends StatefulWidget {
-  const Register({super.key});
+  final Function toggle;
+  const Register({super.key, required this.toggle});
 
   @override
   State<Register> createState() => _RegisterState();
@@ -25,18 +26,18 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgBlack,
+      backgroundColor: mainWhite,
       appBar: AppBar(
         title: const Text(
           "Register",
           style: TextStyle(
-            color: mainWhite,
-            // fontSize: 18.0,
-            // fontWeight: FontWeight.bold,
+            color: bgBlack,
+            fontSize: 35.0,
+            fontWeight: FontWeight.bold,
           ),
         ),
         elevation: 0,
-        backgroundColor: bgBlack,
+        backgroundColor: mainWhite,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -110,8 +111,10 @@ class _RegisterState extends State<Register> {
                               ),
                               const SizedBox(width: 10,),
                               GestureDetector(
-                                // Land to the Register Page
-                                onTap:(){},
+                                // Land to the SignIn Page
+                                onTap:(){
+                                  widget.toggle();
+                                },
                                 child: const Text(
                                   "LOG IN",
                                   style: TextStyle(color: mainBlue,
@@ -132,7 +135,7 @@ class _RegisterState extends State<Register> {
                               decoration: BoxDecoration(
                                   color: mainBlue,
                                   borderRadius: BorderRadius.circular(100),
-                                  border: Border.all(width: 2, color: mainYellow)),
+                                  border: Border.all(width: 2, color: mainBlue)),
                               child: const Center(
                                 child: Text("REGISTER",
                                   style: TextStyle(color: Colors.white,

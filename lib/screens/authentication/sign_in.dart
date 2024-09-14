@@ -5,7 +5,9 @@ import 'package:firebase_testing/services/auth.dart';
 import 'package:flutter/material.dart';
 
 class Sign_In extends StatefulWidget {
-  const Sign_In({super.key});
+
+  final Function toggle;
+  const Sign_In({super.key, required this.toggle});
 
   @override
   State<Sign_In> createState() => _Sign_InState();
@@ -111,7 +113,9 @@ class _Sign_InState extends State<Sign_In> {
                       const SizedBox(width: 10,),
                       GestureDetector(
                         // Land to the Register Page
-                        onTap:(){},
+                        onTap:(){
+                          widget.toggle();
+                        },
                         child: const Text(
                           "REGISTER",
                           style: TextStyle(color: mainBlue,
@@ -153,10 +157,10 @@ class _Sign_InState extends State<Sign_In> {
                           decoration: BoxDecoration(
                               color: mainBlue,
                               borderRadius: BorderRadius.circular(100),
-                              border: Border.all(width: 2, color: mainYellow)),
+                              border: Border.all(width: 2, color: Colors.red)),
                           child: const Center(
                             child: Text("LOG IN AS GUEST",
-                              style: TextStyle(color: Colors.white,
+                              style: TextStyle(color: Colors.red,
                                   fontWeight: FontWeight.w700),
                             ),
                           )

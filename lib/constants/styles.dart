@@ -12,13 +12,13 @@ const textInputDecorations = InputDecoration(
     hintStyle: TextStyle(color: textLight , fontSize: 15),
     fillColor: bgBlack,
     enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: mainYellow, width: 1),
+        borderSide: BorderSide(color: mainGreen, width: 3),
         borderRadius: BorderRadius.all(
           Radius.circular(25),
         )
     ),
     focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: mainYellow, width: 1),
+        borderSide: BorderSide(color: mainGreen, width: 3),
         borderRadius: BorderRadius.all(
           Radius.circular(10),
         )
