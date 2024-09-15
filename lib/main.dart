@@ -1,4 +1,7 @@
 import 'package:firebase_testing/models/UserModel.dart';
+import 'package:firebase_testing/responsive/mobile_screen_layout.dart';
+import 'package:firebase_testing/responsive/responsive_layout_screen.dart';
+import 'package:firebase_testing/responsive/web_screen_layout.dart';
 import 'package:firebase_testing/screens/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_testing/services/auth.dart';
@@ -36,7 +39,10 @@ class MyApp extends StatelessWidget {
       value:AuthServices().user,
         child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Wrapper(),
+        home: ResponsiveLayout(
+            mobileScreenLayout: MobileScreenLayout(),
+            webScreenLayout: WebScreenLayout(),
+        ),
       ),
     );
   }
