@@ -78,6 +78,7 @@ class _Sign_InState extends State<Sign_In> {
                     const SizedBox(height: 20,),
                     // password
                     TextFormField(
+                      obscureText: true,
                       style: textFormStyle,
                       decoration: textInputDecorations.copyWith(hintText: "Password"),
                       validator: (value)=>

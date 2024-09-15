@@ -78,6 +78,7 @@ class _RegisterState extends State<Register> {
                         const SizedBox(height: 20,),
                         // password
                         TextFormField(
+                          obscureText: true,
                           style: textFormStyle,
                           decoration: textInputDecorations.copyWith(hintText: "Password"),
                           validator: (value)=>
