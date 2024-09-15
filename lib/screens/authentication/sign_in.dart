@@ -23,7 +23,7 @@ class _Sign_InState extends State<Sign_In> {
   // Email Password States
   String email = "";
   String password = "";
-
+  String error = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,6 +88,7 @@ class _Sign_InState extends State<Sign_In> {
                         });
                       },
                     ),
+                    Text(error, style: const TextStyle(color:Colors.red),),
                     // google
                     const SizedBox(
                       height: 20,
@@ -130,7 +131,15 @@ class _Sign_InState extends State<Sign_In> {
                     // button
                     GestureDetector(
                       // Method For Login User
-                      onTap: (){},
+                      onTap: () async{
+                        dynamic result = await _auth.signInUsingEmailAndPassword(
+                            email, password);
+                        if(result == null){
+                          setState(() {
+                            error = "Could not sign in with these credentials";
+                          });
+                        }
+                      },
 
                       child: Container(
                         height: 40,
@@ -151,7 +160,9 @@ class _Sign_InState extends State<Sign_In> {
                     // anonymous
                     GestureDetector(
                       // Method For Login User
-                      onTap: (){},
+                      onTap: () async{
+                        await _auth.signInAnonymous();
+                      },
 
                       child: Container(
                           height: 40,

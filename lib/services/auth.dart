@@ -42,6 +42,18 @@ class AuthServices{
     }
 }
   //Sign in using Gmail
+  Future signInUsingEmailAndPassword(String email,String password) async {
+    try{
+      UserCredential result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      User? user = result.user;
+      return _userwithFirebaseUserUid(user);
+    }catch(err){
+      print(err);
+      return null;
+    }
+  }
+
   //SignOut
   Future signOut() async{
     try{
