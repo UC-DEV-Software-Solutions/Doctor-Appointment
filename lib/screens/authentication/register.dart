@@ -60,14 +60,25 @@ class _RegisterState extends State<Register> {
                       )
                   ) ,
                   const SizedBox(height: 10),
-                  const Stack(
+                  Stack(
                     children: [
                       CircleAvatar(
                         radius: 50,
                         backgroundImage: NetworkImage(
                             'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=1631&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
                         ),
-                      )
+                      ),
+                      Positioned(child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          color: mainWhite,
+                          borderRadius: BorderRadiusDirectional.circular(30),
+                        ),
+                        child: IconButton(
+                            onPressed: (){},
+                            icon: Icon(Icons.add_a_photo)),
+                      ))
                     ],
                   ),
                   const SizedBox(height: 10),
