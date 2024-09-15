@@ -2,12 +2,27 @@ import 'package:firebase_testing/models/UserModel.dart';
 import 'package:firebase_testing/screens/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_testing/services/auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // to initialize firebase
-  await Firebase.initializeApp();  // to initialize firebase
+
+  // Check whether the WEB app or Mobile app run
+  if(kIsWeb){
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyBWqe6vziwfRcXCfSD6BLwAKixTO80vITY",
+          authDomain: "authfirebase-aa9b3.firebaseapp.com",
+          projectId: "authfirebase-aa9b3",
+          storageBucket: "authfirebase-aa9b3.appspot.com",
+          messagingSenderId: "845883872520",
+          appId: "1:845883872520:web:0de2aacfdb608e9fa448bd"),
+    );
+  }else{
+    await Firebase.initializeApp();  // to initialize firebase
+  }
   runApp(const MyApp());
 }
 
