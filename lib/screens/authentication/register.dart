@@ -1,3 +1,4 @@
+import 'package:firebase_testing/widgets/textField.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/colours.dart';
@@ -13,6 +14,9 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+
+  final TextEditingController _nameController = TextEditingController();
+
   // reference for the class
   final AuthServices _auth = AuthServices();
 
@@ -62,7 +66,7 @@ class _RegisterState extends State<Register> {
                   const SizedBox(height: 10),
                   Stack(
                     children: [
-                      CircleAvatar(
+                      const CircleAvatar(
                         radius: 50,
                         backgroundImage: NetworkImage(
                             'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=1631&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
@@ -92,11 +96,11 @@ class _RegisterState extends State<Register> {
                         child: Column(
                           children: [
                             // Name
-                            TextFormField(
-                              obscureText: true,
-                              style: textFormStyle,
-                              decoration: textInputDecorations.copyWith(hintText: "Name"),
-                            ),
+                            TextInputField(
+                                controller: _nameController,
+                                hintText: "Name",
+                                inputKeyboardType: TextInputType.text,
+                                isPassword: false),
                             const SizedBox(height: 20,),
                             // email
                             TextFormField(
