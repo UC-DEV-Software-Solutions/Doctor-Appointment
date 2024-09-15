@@ -14,6 +14,11 @@ class Sign_In extends StatefulWidget {
 }
 
 class _Sign_InState extends State<Sign_In> {
+
+  // Controllers for TextFields
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   // reference for the class
   final AuthServices _auth = AuthServices();
 
@@ -114,7 +119,7 @@ class _Sign_InState extends State<Sign_In> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                          const Text("Do not have an account?",
+                          const Text('Don\'t have an account?',
                           style: descriptionStyle,
                           ),
                           const SizedBox(width: 10,),

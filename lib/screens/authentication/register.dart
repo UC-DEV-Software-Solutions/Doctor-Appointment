@@ -15,8 +15,10 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
 
+  // Controllers for TextFields
   final TextEditingController _nameController = TextEditingController();
-
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   // reference for the class
   final AuthServices _auth = AuthServices();
 
@@ -214,16 +216,4 @@ class _RegisterState extends State<Register> {
     );
   }
 }
-
-// ElevatedButton(
-// onPressed: () async{
-// dynamic result = await _auth.signInAnonymous();
-// if(result == Null){
-// print("Error in Sign in Anonymously");
-// }else{
-// print("Signed in Anonymously");
-// print(result.uid);
-// }
-// },
-// child: const Text("Sign In Anonymously")),
 
