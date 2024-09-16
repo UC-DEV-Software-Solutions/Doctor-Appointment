@@ -7,6 +7,14 @@ const Color mainBlue = Color(0xff4285F4);
 const Color mainWhite = Color(0xffFFFFFF);
 const Color mainGreen = Color(0xff40C63E);
 
+
+const mobileBackgroundColor = Color.fromRGBO(0, 0, 0, 1);
+const webBackgroundColor = Color.fromRGBO(18, 18, 18, 1);
+const mobileSearchColor = Color.fromRGBO(38, 38, 38, 1);
+const mainYellowColor = Color.fromRGBO(254, 222, 0, 1);
+const primaryColor = Colors.white;
+const secondaryColor = Colors.grey;
+
 // Define dark theme colors
 final ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,

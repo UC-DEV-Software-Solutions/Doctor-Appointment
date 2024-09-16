@@ -140,15 +140,16 @@ class _Sign_InState extends State<Sign_In> {
                         // button
                         GestureDetector(
                           // Method For Login User
-                          onTap: () async{
-                            dynamic result = await _auth.signInUsingEmailAndPassword(
-                                email, password);
-                            if(result == null){
-                              setState(() {
-                                error = "Could not sign in with these credentials";
-                              });
-                            }
-                          },
+                          onTap: () {}
+                          // async{
+                          //   dynamic result = await _auth.signInUsingEmailAndPassword(
+                          //       email, password);
+                          //   if(result == null){
+                          //     setState(() {
+                          //       error = "Could not sign in with these credentials";
+                          //     });
+                          //   }
+                          ,
                     
                           child: Container(
                             height: 40,

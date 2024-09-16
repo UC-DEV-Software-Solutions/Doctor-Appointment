@@ -1,5 +1,7 @@
 import 'package:firebase_testing/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/user_provider.dart';
 
 class ResponsiveLayout extends StatefulWidget {
 
@@ -17,6 +19,14 @@ class ResponsiveLayout extends StatefulWidget {
 }
 
 class _ResponsiveLayoutState extends State<ResponsiveLayout> {
+
+  //this is the list of the states
+  addStates() async {
+    //add the states
+    UserProvider _userProvider = Provider.of(context, listen: false);
+    await _userProvider.refreshUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(

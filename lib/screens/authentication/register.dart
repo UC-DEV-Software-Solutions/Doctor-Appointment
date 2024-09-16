@@ -1,9 +1,16 @@
+import 'dart:typed_data';
+
 import 'package:firebase_testing/widgets/textField.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../constants/colours.dart';
 import '../../constants/styles.dart';
+import '../../responsive/mobile_screen_layout.dart';
+import '../../responsive/responsive_layout_screen.dart';
+import '../../responsive/web_screen_layout.dart';
 import '../../services/auth.dart';
+import '../../utils/util_functions.dart';
 
 class Register extends StatefulWidget {
   final Function toggle;
@@ -19,18 +26,80 @@ class _RegisterState extends State<Register> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  Uint8List? _profileImage;
+  bool isLoading = false;
+
   // reference for the class
   final AuthServices _auth = AuthServices();
 
+  //register the user
+  void registerUser() async {
+    setState(() {
+      isLoading = true;
+    });
+    //get the user data from the text feilds
+    String email = _emailController.text.trim();
+    String password = _passwordController.text.trim();
+    String userName = _nameController.text.trim();
+
+    //register the user
+    String result = await _auth.registerWithEmailAndPassword(
+      email: email,
+      password: password,
+      userName: userName,
+      profilePic: _profileImage!,
+    );
+
+    //show the snak bar if the user is created or not
+    if (result == "email-already-in-use" ||
+        result == "weak-password" ||
+        result == "invalid-email") {
+      showSnakBar(context, result);
+    } else if (result == 'success') {
+      //here the pushReplacement is used for remove the back button from the screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+            webScreenLayout: WebScreenLayout(),
+            mobileScreenLayout: MobileScreenLayout(),
+          ),
+        ),
+      );
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   // Form Key
-  final _formKey = GlobalKey<FormState>();
+  // final _formKey = GlobalKey<FormState>();
 
   // Email Password States
-  String email = "";
-  String password = "";
-  String error = "";
+  // String email = "";
+  // String password = "";
+  // String error = "";
 
   @override
+
+  //this  dispose methode is for remove the controller data from the memory
+  void dispose() {
+    super.dispose();
+    //dispose the controllers
+    _emailController.dispose();
+    _passwordController.dispose();
+    _nameController.dispose();
+  }
+
+  //this methode is for select the image from the gallery
+  void selectImage() async {
+    Uint8List _profileImage = await pickImage(ImageSource.gallery);
+    setState(() {
+      this._profileImage = _profileImage;
+    });
+  }
+
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: mainWhite,
@@ -68,7 +137,13 @@ class _RegisterState extends State<Register> {
                   const SizedBox(height: 10),
                   Stack(
                     children: [
-                      const CircleAvatar(
+                      //if the profile image is null show the default image
+                      _profileImage != null
+                      ?CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors.grey[300],
+                        backgroundImage: MemoryImage(_profileImage!),
+                      ):const CircleAvatar(
                         radius: 50,
                         backgroundImage: NetworkImage(
                             'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=1631&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
@@ -85,7 +160,7 @@ class _RegisterState extends State<Register> {
                           borderRadius: BorderRadiusDirectional.circular(30),
                         ),
                         child: IconButton(
-                            onPressed: (){},
+                            onPressed: selectImage,
                             icon: Icon(Icons.add_a_photo)),
                       ))
                     ],
@@ -94,7 +169,7 @@ class _RegisterState extends State<Register> {
                   Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: Form(
-                        key: _formKey,
+                        // key: _formKey,
                         child: Column(
                           children: [
                             // Name
@@ -102,40 +177,30 @@ class _RegisterState extends State<Register> {
                                 controller: _nameController,
                                 hintText: "Name",
                                 inputKeyboardType: TextInputType.text,
-                                isPassword: false),
+                                isPassword: false
+                            ),
                             const SizedBox(height: 20,),
                             // email
-                            TextFormField(
-                              style: textFormStyle,
-                              decoration: textInputDecorations,
-                              validator: (value)=>
-                              value?.isEmpty == true ? "Enter a valid email" : null,
-                              onChanged: (value){
-                                setState(() {
-                                  email = value;
-                                });
-                              },
+                            TextInputField(
+                                controller: _emailController,
+                                hintText: "Email",
+                                inputKeyboardType: TextInputType.emailAddress,
+                                isPassword: false
                             ),
                             const SizedBox(height: 20,),
                             // password
-                            TextFormField(
-                              obscureText: true,
-                              style: textFormStyle,
-                              decoration: textInputDecorations.copyWith(hintText: "Password"),
-                              validator: (value)=>
-                              value!.length < 6 ? "Enter a valid password" : null,
-                              onChanged: (value){
-                                setState(() {
-                                  password = value;
-                                });
-                              },
+                            TextInputField(
+                                controller: _passwordController,
+                                hintText: "Password",
+                                inputKeyboardType: TextInputType.visiblePassword,
+                                isPassword: true
                             ),
                             // google
                             const SizedBox(
                               height: 20,
                             ),
                             // error
-                            Text(error, style: const TextStyle(color: Colors.red),),
+                            // Text(error, style: const TextStyle(color: Colors.red),),
                             const Text(
                                 "Login with social accounts",
                                 style: descriptionStyle
@@ -172,20 +237,17 @@ class _RegisterState extends State<Register> {
                             ),
                             const SizedBox(height: 20),
                             // button
-                            GestureDetector(
+                            //button for login
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            isLoading
+                                ? const CircularProgressIndicator(
+                              color: primaryColor,
+                            )
+                                : GestureDetector(
                               // Method For Register User
-                              onTap: () async {
-                                dynamic result = await _auth.registerWithEmailAndPassword(
-                                    email, password);
-                                if(result == null){
-                                  // error
-                                  setState(() {
-                                    error = "Please enter a valid email";
-                                  });
-                                }
-
-                              },
-
+                              onTap: registerUser,
                               child: Container(
                                   height: 40,
                                   width: 200,
@@ -201,6 +263,7 @@ class _RegisterState extends State<Register> {
                                   )
                               ),
                             ),
+
                             const SizedBox(height: 15,),
                             // anonymous
 
