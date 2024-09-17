@@ -14,14 +14,17 @@ class _DoctordetailsState extends State<Doctordetails> {
   final Map<String, Map<String, String>> doctorDetails = {
     'Dr. John': {
       'image': 'assets/images/covid-19.png',
+      'title': 'Genaral Practiotioner',
       'description': 'Dr. John is a renowned cardiologist with 10 years of experience.',
     },
     'Dr. Jane': {
       'image': 'assets/images/GoogleIcon.png',
+      'title': 'Genaral Practiotioner',
       'description': 'Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.',
     },
     'Dr. Mike': {
       'image': 'assets/images/dr_mike.png',
+      'title': 'Genaral Practiotioner',
       'description': 'Dr. Mike is an orthopedic surgeon with expertise in sports injuries.',
     },
   };
@@ -86,6 +89,15 @@ class _DoctordetailsState extends State<Doctordetails> {
                                 fit: BoxFit.cover, // Ensures the image covers the circle
                               ),
                             ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        Center(
+                          child: Text(
+                            doctorDetails[_selectedDoctor]!['title']!,
+                            style: const TextStyle(fontSize: 20,),
                           ),
                         ),
 
