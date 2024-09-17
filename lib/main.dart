@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData.dark()
+        theme: ThemeData.light()
             .copyWith(scaffoldBackgroundColor: mobileBackgroundColor),
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
