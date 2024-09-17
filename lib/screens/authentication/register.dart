@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:firebase_testing/screens/home/home.dart';
+import 'package:firebase_testing/screens/wrapper.dart';
 import 'package:firebase_testing/widgets/textField.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -37,7 +39,7 @@ class _RegisterState extends State<Register> {
     setState(() {
       isLoading = true;
     });
-    //get the user data from the text feilds
+    //get the user data from the text fields
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
     String userName = _nameController.text.trim();
@@ -50,7 +52,7 @@ class _RegisterState extends State<Register> {
       profilePic: _profileImage!,
     );
 
-    //show the snak bar if the user is created or not
+    //show the snakbar if the user is created or not
     if (result == "email-already-in-use" ||
         result == "weak-password" ||
         result == "invalid-email") {
@@ -60,10 +62,8 @@ class _RegisterState extends State<Register> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const ResponsiveLayout(
-            webScreenLayout: WebScreenLayout(),
-            mobileScreenLayout: MobileScreenLayout(),
-          ),
+          builder: (context) => const
+          Wrapper()
         ),
       );
     }

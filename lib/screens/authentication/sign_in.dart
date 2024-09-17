@@ -1,8 +1,14 @@
-
 import 'package:firebase_testing/constants/colours.dart';
 import 'package:firebase_testing/constants/styles.dart';
+import 'package:firebase_testing/screens/home/home.dart';
 import 'package:firebase_testing/services/auth.dart';
 import 'package:flutter/material.dart';
+
+import '../../responsive/mobile_screen_layout.dart';
+import '../../responsive/responsive_layout_screen.dart';
+import '../../responsive/web_screen_layout.dart';
+import '../../utils/util_functions.dart';
+import '../../widgets/textField.dart';
 
 class Sign_In extends StatefulWidget {
 
@@ -18,18 +24,69 @@ class _Sign_InState extends State<Sign_In> {
   // Controllers for TextFields
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool isLoading = false;
 
   // reference for the class
   final AuthServices _auth = AuthServices();
 
   // Form Key
-  final _formKey = GlobalKey<FormState>();
+  // final _formKey = GlobalKey<FormState>();
 
   // Email Password States
-  String email = "";
-  String password = "";
-  String error = "";
+  // String email = "";
+  // String password = "";
+  // String error = "";
   @override
+
+  //this  dispose methode is for remove the controller data from the memory
+  void dispose() {
+    super.dispose();
+    //dispose the controllers
+    _emailController.dispose();
+    _passwordController.dispose();
+  }
+
+  //login the user
+  void loginUser() async {
+    setState(() {
+      isLoading = true;
+    });
+    final String email = _emailController.text.trim();
+    final String password = _passwordController.text.trim();
+
+    String result = await _auth.loginWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+
+    //show the snak bar if the user is created or not
+
+    if (result == "email-already-in-use" ||
+        result == "weak-password" ||
+        result == "invalid-email") {
+      showSnakBar(context, result);
+    } else if (result == 'success') {
+      //here the pushReplacement is used for remove the back button from the screen
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const
+          ResponsiveLayout(
+            webScreenLayout: WebScreenLayout(),
+            mobileScreenLayout: MobileScreenLayout(),
+        )
+        ),
+      );
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+
+    print("user logged in");
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgBlack,
@@ -68,36 +125,49 @@ class _Sign_InState extends State<Sign_In> {
                   Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: Form(
-                        key: _formKey,
                         child: Column(
                       children: [
                         // email
-                        TextFormField(
-                          style: textFormStyle,
-                          decoration: textInputDecorations,
-                          validator: (value)=>
-                          value?.isEmpty == true ? "Enter a valid email" : null,
-                          onChanged: (value){
-                            setState(() {
-                              email = value;
-                            });
-                          },
+                        // TextFormField(
+                        //   style: textFormStyle,
+                        //   decoration: textInputDecorations,
+                        //   validator: (value)=>
+                        //   value?.isEmpty == true ? "Enter a valid email" : null,
+                        //   onChanged: (value){
+                        //     setState(() {
+                        //       email = value;
+                        //     });
+                        //   },
+                        // ),
+                        //text field for email
+                        TextInputField(
+                          hintText: 'Enter Email',
+                          controller: _emailController,
+                          isPassword: false,
+                          inputKeyboardType: TextInputType.emailAddress,
                         ),
                         const SizedBox(height: 20,),
                         // password
-                        TextFormField(
-                          obscureText: true,
-                          style: textFormStyle,
-                          decoration: textInputDecorations.copyWith(hintText: "Password"),
-                          validator: (value)=>
-                          value!.length < 6 ? "Enter a valid password" : null,
-                          onChanged: (value){
-                            setState(() {
-                              password = value;
-                            });
-                          },
+                        // TextFormField(
+                        //   obscureText: true,
+                        //   style: textFormStyle,
+                        //   decoration: textInputDecorations.copyWith(hintText: "Password"),
+                        //   validator: (value)=>
+                        //   value!.length < 6 ? "Enter a valid password" : null,
+                        //   onChanged: (value){
+                        //     setState(() {
+                        //       password = value;
+                        //     });
+                        //   },
+                        // ),
+                        //text feild for password
+                        TextInputField(
+                          hintText: 'Enter Password',
+                          controller: _passwordController,
+                          isPassword: true,
+                          inputKeyboardType: TextInputType.visiblePassword,
                         ),
-                        Text(error, style: const TextStyle(color:Colors.red),),
+                        // Text(error, style: const TextStyle(color:Colors.red),),
                         // google
                         const SizedBox(
                           height: 20,
@@ -138,9 +208,13 @@ class _Sign_InState extends State<Sign_In> {
                         ),
                         const SizedBox(height: 20),
                         // button
-                        GestureDetector(
+                        isLoading
+                            ? const CircularProgressIndicator(
+                          color: primaryColor,
+                        )
+                            : GestureDetector(
                           // Method For Login User
-                          onTap: () {}
+                          onTap: loginUser,
                           // async{
                           //   dynamic result = await _auth.signInUsingEmailAndPassword(
                           //       email, password);
@@ -149,23 +223,23 @@ class _Sign_InState extends State<Sign_In> {
                           //       error = "Could not sign in with these credentials";
                           //     });
                           //   }
-                          ,
-                    
+
                           child: Container(
-                            height: 40,
+                              height: 40,
                               width: 200,
-                            decoration: BoxDecoration(
-                                color: mainBlue,
-                            borderRadius: BorderRadius.circular(100),
-                            border: Border.all(width: 2, color: mainYellow)),
-                            child: const Center(
+                              decoration: BoxDecoration(
+                                  color: mainBlue,
+                                  borderRadius: BorderRadius.circular(100),
+                                  border: Border.all(width: 2, color: mainYellow)),
+                              child: const Center(
                                 child: Text("LOG IN",
-                              style: TextStyle(color: Colors.white,
-                                fontWeight: FontWeight.w700),
-                            ),
-                            )
+                                  style: TextStyle(color: Colors.white,
+                                      fontWeight: FontWeight.w700),
+                                ),
+                              )
                           ),
                         ),
+
                         const SizedBox(height: 15,),
                         // anonymous
                         GestureDetector(
