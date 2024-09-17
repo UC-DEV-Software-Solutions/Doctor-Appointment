@@ -1,18 +1,39 @@
+import 'package:firebase_testing/widgets/doctorDropDown.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/colours.dart';
 import '../../widgets/previousAppointments.dart';
 import '../../widgets/textField.dart';
 
-class Makeappointment extends StatelessWidget {
+class Makeappointment extends StatefulWidget {
+  @override
+  State<Makeappointment> createState() => _MakeappointmentState();
+}
+
+class _MakeappointmentState extends State<Makeappointment> {
   // const Makeappointment({super.key});
+  final List<String> _doctors = ['Dr. Mahesh', 'Dr. Supun', 'Dr. Nioshani'];
+
+  // This will store the selected doctor
+  String? _selectedDoctor;
+
+  // Callback function to handle doctor selection
+  void _handleDoctorSelection(String? selectedDoctor) {
+    setState(() {
+      _selectedDoctor = selectedDoctor;
+    });
+  }
 
   // Controllers for TextFields
   final TextEditingController _patientNameController = TextEditingController();
+
   final TextEditingController _phoneNumberController = TextEditingController();
+
   final TextEditingController _ageController = TextEditingController();
+
   final TextEditingController _reasonController = TextEditingController();
 
+  final TextEditingController _doctorNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +73,22 @@ class Makeappointment extends StatelessWidget {
                 },
               ),
 
+              const SizedBox(height: 10),
+
+              DoctorDropdown(
+                doctors: _doctors,
+                onDoctorSelected: _handleDoctorSelection, // Callback for selection
+              ),
               const SizedBox(height: 20),
+
+              // Display the selected doctor
+              Text(
+                _selectedDoctor == null
+                    ? "No doctor selected"
+                    : "Selected Doctor: $_selectedDoctor",
+                style: const TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 10),
 
               // Patient Details Form
               const Text(
