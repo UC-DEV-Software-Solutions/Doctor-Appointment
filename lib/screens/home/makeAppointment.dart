@@ -137,21 +137,21 @@ class _MakeappointmentState extends State<Makeappointment> {
                 children: [
                   TextInputField(
                       controller: _patientNameController,
-                      hintText: "Full Name",
+                      hintText: "Full Name *",
                       inputKeyboardType: TextInputType.text,
                       isPassword: false
                   ),
                   const SizedBox(height: 20,),
                   TextInputField(
                       controller: _phoneNumberController,
-                      hintText: "Phone Number",
+                      hintText: "Phone Number *",
                       inputKeyboardType: TextInputType.number,
                       isPassword: false
                   ),
                   const SizedBox(height: 20,),
                   TextInputField(
                       controller: _ageController,
-                      hintText: "Age",
+                      hintText: "Age *",
                       inputKeyboardType: TextInputType.number,
                       isPassword: false
                   ),
