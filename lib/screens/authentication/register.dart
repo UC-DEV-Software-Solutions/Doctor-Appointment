@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:firebase_testing/screens/home/home.dart';
 import 'package:firebase_testing/screens/wrapper.dart';
+import 'package:firebase_testing/widgets/mainBanner.dart';
 import 'package:firebase_testing/widgets/textField.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -129,11 +130,7 @@ class _RegisterState extends State<Register> {
                   //   description,
                   //   style: descriptionStyle,
                   // ),
-                  Center(
-                      child: Image.asset('assets/images/covid-19.png',
-                        height: 100,
-                      )
-                  ) ,
+                  const Mainbanner(),
                   const SizedBox(height: 10),
                   Stack(
                     children: [
@@ -213,7 +210,7 @@ class _RegisterState extends State<Register> {
                                     height: 50,)
                               ),
                             ) ,
-                            const SizedBox(height: 20),
+                            const SizedBox(height: 0),
                             // Sign In Page
                             Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -235,7 +232,7 @@ class _RegisterState extends State<Register> {
                                     ),
                                   )]
                             ),
-                            const SizedBox(height: 20),
+                            const SizedBox(height: 0),
                             // button
                             //button for login
                             const SizedBox(
@@ -254,7 +251,8 @@ class _RegisterState extends State<Register> {
                                   decoration: BoxDecoration(
                                       color: mainBlue,
                                       borderRadius: BorderRadius.circular(100),
-                                      border: Border.all(width: 2, color: mainBlue)),
+                                      border: Border.all(width: 2, color: mainBlue)
+                                  ),
                                   child: const Center(
                                     child: Text("REGISTER",
                                       style: TextStyle(color: Colors.white,
@@ -264,7 +262,7 @@ class _RegisterState extends State<Register> {
                               ),
                             ),
 
-                            const SizedBox(height: 15,),
+                            const SizedBox(height: 100,),
                             // anonymous
 
                           ],

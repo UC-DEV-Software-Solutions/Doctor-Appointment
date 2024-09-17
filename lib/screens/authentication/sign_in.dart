@@ -2,6 +2,7 @@ import 'package:firebase_testing/constants/colours.dart';
 import 'package:firebase_testing/constants/styles.dart';
 import 'package:firebase_testing/screens/home/home.dart';
 import 'package:firebase_testing/services/auth.dart';
+import 'package:firebase_testing/widgets/mainBanner.dart';
 import 'package:flutter/material.dart';
 
 import '../../responsive/mobile_screen_layout.dart';
@@ -116,11 +117,14 @@ class _Sign_InState extends State<Sign_In> {
                   //   description,
                   //   style: descriptionStyle,
                   // ),
-                  Center(
-                      child: Image.asset('assets/images/covid-19.png',
-                      height: 400,
-                      )
-                  ) ,
+              const Mainbanner(),
+
+
+              // Center(
+                  //     child: Image.asset('assets/images/covid-19.png',
+                  //     height: 400,
+                  //     )
+                  // ) ,
                   const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.all(4.0),
@@ -184,7 +188,7 @@ class _Sign_InState extends State<Sign_In> {
                                 height: 50,)
                           ),
                         ) ,
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 0),
                         // register
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -262,7 +266,8 @@ class _Sign_InState extends State<Sign_In> {
                                 ),
                               )
                           ),
-                        )
+                        ),
+                        const SizedBox(height: 100,),
                       ],
                     )),
                   )

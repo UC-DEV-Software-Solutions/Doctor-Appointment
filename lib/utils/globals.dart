@@ -9,7 +9,7 @@ import '../screens/home/home.dart';
 
 List<Widget> homeScreenLayouts = [
   const Home(),
-  // const SearchScreen(),
+  const Home(),
   // const AddPostScreen(),
   // const Text("Favorite"),
   // ProfileScreen(
