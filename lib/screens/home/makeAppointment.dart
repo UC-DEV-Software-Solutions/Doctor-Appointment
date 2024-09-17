@@ -2,6 +2,7 @@ import 'package:firebase_testing/widgets/doctorDropDown.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/colours.dart';
+import '../../widgets/paymentSelectionDialog.dart';
 import '../../widgets/previousAppointments.dart';
 import '../../widgets/textField.dart';
 
@@ -22,6 +23,42 @@ class _MakeappointmentState extends State<Makeappointment> {
     setState(() {
       _selectedDoctor = selectedDoctor;
     });
+  }
+
+  void _showPaymentDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return PaymentSelectionDialog(
+          onPaymentOptionSelected: (selectedOption) {
+            // Handle selected payment option
+            print("Selected Payment Method: $selectedOption");
+          },
+        );
+      },
+    );
+  }
+
+
+// Function from ChatGPT
+  Future<void> _saveAppointmentToFirestore(BuildContext context) async {
+    try {
+      // Replace with your Firestore collection and document structure
+      // await FirebaseFirestore.instance.collection('appointments').add({
+      //   'doctorName': _doctorNameController.text,
+      //   'patientName': _patientNameController.text,
+      //   'appointmentDate': appointmentDate,
+      //   'createdAt': FieldValue.serverTimestamp(),
+      // });
+
+      // Open the payment selection dialog after saving data
+      _showPaymentDialog(context);
+    } catch (error) {
+      print('Failed to save appointment: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to make an appointment. Please try again.')),
+      );
+    }
   }
 
   // Controllers for TextFields
@@ -138,7 +175,8 @@ class _MakeappointmentState extends State<Makeappointment> {
                     foregroundColor: MaterialStatePropertyAll(bgBlack),
                   ),
                   onPressed: () {
-                    // Handle appointment submission
+                    // Save data to Firestore and open the payment dialog
+                    _saveAppointmentToFirestore(context);
                   },
                   child: const Text('Make Appointment'),
                 ),
