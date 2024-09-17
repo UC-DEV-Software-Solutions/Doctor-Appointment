@@ -60,7 +60,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
           ),
           Icon(
             Icons.medication,
-            color: _page == 2 ? primaryColor : secondaryColor,
+            color: _page == 2 ? bgBlack : secondaryColor,
           ),
           Icon(
             Icons.favorite_border,
