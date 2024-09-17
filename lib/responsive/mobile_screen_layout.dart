@@ -47,29 +47,29 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
       ),
       bottomNavigationBar: CurvedNavigationBar(
         height: 60,
-        // backgroundColor: mainWhite,
-        // color: primaryColor, // Navigation bar background color
+        backgroundColor: mainWhite,
+        color: mainBlue, // Navigation bar background color
         items: [
           Icon(
             Icons.home,
-            color: _page == 0 ? bgBlack : secondaryColor,
+            color: _page == 0 ? bgBlack : mainWhite,
           ),
           Icon(
             Icons.book_online,
-            color: _page == 1 ? bgBlack : secondaryColor,
+            color: _page == 1 ? bgBlack : mainWhite,
           ),
           Icon(
             Icons.medication,
-            color: _page == 2 ? bgBlack : secondaryColor,
-          ),
-          Icon(
-            Icons.favorite_border,
-            color: _page == 3 ? primaryColor : secondaryColor,
+            color: _page == 2 ? bgBlack : mainWhite,
           ),
           Icon(
             Icons.person,
-            color: _page == 4 ? primaryColor : secondaryColor,
+            color: _page == 3 ? bgBlack : mainWhite,
           ),
+          // Icon(
+          //   Icons.person,
+          //   color: _page == 4 ? primaryColor : secondaryColor,
+          // ),
         ],
         onTap: navigationTapped, // Switch page on tap
       ),
