@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import '../constants/colours.dart';
 import '../utils/globals.dart';
@@ -38,57 +38,40 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
 
   @override
   Widget build(BuildContext context) {
-    //get the user name
-    // user_model.User user = Provider.of<UserProvider>(context).getUser!;
     return Scaffold(
       body: PageView(
         children: homeScreenLayouts,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(), // Prevents manual scrolling
         controller: _pageController,
         onPageChanged: onPageChanged,
       ),
-      bottomNavigationBar: CupertinoTabBar(
-        height: 52,
-        backgroundColor: mainWhite,
+      bottomNavigationBar: CurvedNavigationBar(
+        height: 60,
+        // backgroundColor: mainWhite,
+        // color: primaryColor, // Navigation bar background color
         items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              color: _page == 0 ? bgBlack : secondaryColor,
-            ),
-            label: "",
+          Icon(
+            Icons.home,
+            color: _page == 0 ? bgBlack : secondaryColor,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.book_online,
-              color: _page == 1 ? bgBlack : secondaryColor,
-            ),
-            label: "",
+          Icon(
+            Icons.book_online,
+            color: _page == 1 ? bgBlack : secondaryColor,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.medication,
-              color: _page == 2 ? primaryColor : secondaryColor,
-            ),
-            label: "",
+          Icon(
+            Icons.medication,
+            color: _page == 2 ? primaryColor : secondaryColor,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.favorite_border,
-              color: _page == 3 ? primaryColor : secondaryColor,
-            ),
-            label: "",
+          Icon(
+            Icons.favorite_border,
+            color: _page == 3 ? primaryColor : secondaryColor,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-              color: _page == 4 ? primaryColor : secondaryColor,
-            ),
-            label: "",
+          Icon(
+            Icons.person,
+            color: _page == 4 ? primaryColor : secondaryColor,
           ),
         ],
-        onTap: navigationTapped,
-        currentIndex: _page,
+        onTap: navigationTapped, // Switch page on tap
       ),
     );
   }
