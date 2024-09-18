@@ -18,7 +18,6 @@ class DoctorModel{
   // doctorData into json object
   Map<String, dynamic> toJSON(){
     return{
-      'id':id,
       'dName':dName,
       'dtitle':dtitle,
       'dDescription':dDescription,
@@ -26,14 +25,14 @@ class DoctorModel{
     };
   }
 
-  // json object convert to doctorData
-  factory DoctorModel.fromJSON(Map<String,dynamic> json){
+  // firebase Document object convert to dart doctorData
+  factory DoctorModel.fromJSON(Map<String,dynamic> doc,String id){
     return DoctorModel(
-        id: json['id'],
-        dName: json['dName'],
-        dtitle: json['dtitle'],
-        dDescription: json['dDescription'],
-        doctorPic: json['doctorPic']
+        id: 'id',
+        dName: doc['dName'],
+        dtitle: doc['dtitle'],
+        dDescription: doc['dDescription'],
+        doctorPic: doc['doctorPic']
     );
   }
 
