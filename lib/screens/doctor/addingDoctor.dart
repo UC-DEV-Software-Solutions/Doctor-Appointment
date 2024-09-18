@@ -97,7 +97,7 @@ class _AddingdoctorState extends State<Addingdoctor> {
                             // Name
                             TextInputField(
                                 controller: _dNameController,
-                                hintText: "Name",
+                                hintText: "Name *",
                                 inputKeyboardType: TextInputType.text,
                                 isPassword: false
                             ),
@@ -105,16 +105,16 @@ class _AddingdoctorState extends State<Addingdoctor> {
                             // email
                             TextInputField(
                                 controller: _dtitleController,
-                                hintText: "Email",
-                                inputKeyboardType: TextInputType.emailAddress,
+                                hintText: "Title *",
+                                inputKeyboardType: TextInputType.text,
                                 isPassword: false
                             ),
                             const SizedBox(height: 20,),
                             // password
                             TextInputField(
                                 controller: _dDescriptionController,
-                                hintText: "Password",
-                                inputKeyboardType: TextInputType.visiblePassword,
+                                hintText: "Description *",
+                                inputKeyboardType: TextInputType.text,
                                 isPassword: true
                             ),
                             // google
