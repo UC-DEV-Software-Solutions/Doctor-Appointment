@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class AppointmentModel{
   final String aId;
   final String patientName;
@@ -5,6 +7,7 @@ class AppointmentModel{
   final int age;
   // final String doctorName;
   final String reason;
+  final DateTime createdAt;
 
   // Constructor
   AppointmentModel({
@@ -13,7 +16,8 @@ class AppointmentModel{
     required this.phoneNumber,
     required this.age,
     // required this.doctorName,
-    required this.reason
+    required this.reason,
+    required this.createdAt
 });
 
   // AppointmentData into json object
@@ -23,6 +27,7 @@ class AppointmentModel{
       'phoneNumber':phoneNumber,
       'age':age,
       'reason':reason,
+      'createdAt':createdAt
     };
   }
 
@@ -33,7 +38,8 @@ class AppointmentModel{
         patientName: doc['patientName'],
         phoneNumber: doc['phoneNumber'],
         age: doc['age'],
-        reason: doc['reason']
+        reason: doc['reason'],
+        createdAt: (doc['createdAt'] as Timestamp).toDate(),
     );
   }
 

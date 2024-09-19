@@ -2,6 +2,7 @@ import 'package:firebase_testing/widgets/doctorDropDown.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/colours.dart';
+import '../../services/appointment.dart';
 import '../../widgets/paymentSelectionDialog.dart';
 import '../../widgets/previousAppointments.dart';
 import '../../widgets/textField.dart';
@@ -71,6 +72,16 @@ class _MakeappointmentState extends State<Makeappointment> {
   final TextEditingController _reasonController = TextEditingController();
 
   final TextEditingController _doctorNameController = TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _ageController.dispose();
+    _patientNameController.dispose();
+    _phoneNumberController.dispose();
+    _reasonController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -174,9 +185,16 @@ class _MakeappointmentState extends State<Makeappointment> {
                     backgroundColor: MaterialStatePropertyAll(Colors.red),
                     foregroundColor: MaterialStatePropertyAll(bgBlack),
                   ),
-                  onPressed: () {
+                  onPressed: () async{
+
+                    await AppointmentService().addAppointment(_patientNameController.text, _phoneNumberController.text,int.parse(_ageController.text), _reasonController.text);
+                    _patientNameController.clear();
+                    _phoneNumberController.clear();
+                    _ageController.clear();
+                    _reasonController.clear();
+
                     // Save data to Firestore and open the payment dialog
-                    _saveAppointmentToFirestore(context);
+                    // _saveAppointmentToFirestore(context);
                   },
                   child: const Text('Make Appointment'),
                 ),
