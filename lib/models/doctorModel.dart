@@ -28,7 +28,7 @@ class DoctorModel{
   // firebase Document object convert to dart doctorData
   factory DoctorModel.fromJSON(Map<String,dynamic> doc,String id){
     return DoctorModel(
-        id: 'id',
+        id: id,
         dName: doc['dName'],
         dtitle: doc['dtitle'],
         dDescription: doc['dDescription'],

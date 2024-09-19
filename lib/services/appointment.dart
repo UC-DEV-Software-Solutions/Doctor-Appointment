@@ -38,5 +38,13 @@ class AppointmentService{
     doc.id)).toList());
   }
 
+  Future<void> deleteAppointment(String aId) async{
+    try{
+      await _appointmentCollection.doc(aId).delete();
+      print("Appointment Deleted Successfully");
+    }catch(error){
+      print("Deleting Error $error");
+    }
+  }
 
 }

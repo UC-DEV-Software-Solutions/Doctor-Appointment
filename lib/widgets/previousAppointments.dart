@@ -1,3 +1,4 @@
+import 'package:firebase_testing/services/appointment.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_testing/models/appointmentModel.dart';
 
@@ -21,7 +22,10 @@ class PreviousAppointments extends StatelessWidget {
               'Phone: ${appointment.phoneNumber}\nAge: ${appointment.age}\nReason: ${appointment.reason}\nBooked On: ${appointment.createdAt}',
             ), // Display additional details like phone, age, and reason
             trailing: IconButton(
-                onPressed: (){},
+                onPressed: () async{
+                  print('Attempting to delete appointment with ID: ${appointment.aId}');
+                  AppointmentService().deleteAppointment(appointment.aId);
+                },
                 icon: const Icon(Icons.delete)),
           ),
         );

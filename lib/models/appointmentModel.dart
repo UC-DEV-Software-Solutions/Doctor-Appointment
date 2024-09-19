@@ -6,7 +6,7 @@ class AppointmentModel{
   final String phoneNumber;
   final int age;
   // final String doctorName;
-  final String reason;
+  final String? reason;
   final DateTime createdAt;
 
   // Constructor
@@ -16,7 +16,7 @@ class AppointmentModel{
     required this.phoneNumber,
     required this.age,
     // required this.doctorName,
-    required this.reason,
+    this.reason,
     required this.createdAt
 });
 
@@ -34,7 +34,7 @@ class AppointmentModel{
   // firebase Document object convert to dart doctorData
   factory AppointmentModel.fromJSON(Map<String,dynamic> doc,String aId){
     return AppointmentModel(
-        aId: 'aId',
+        aId: aId,
         patientName: doc['patientName'],
         phoneNumber: doc['phoneNumber'],
         age: doc['age'],
