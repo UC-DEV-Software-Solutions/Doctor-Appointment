@@ -31,4 +31,12 @@ class AppointmentService{
     }
   }
 
+  // Method to get all Appointments from the Firestore
+  Stream<List<AppointmentModel>> getAppointments(){
+    return _appointmentCollection.snapshots().map((snapshot)=>snapshot.docs
+    .map((doc)=> AppointmentModel.fromJSON(doc.data() as Map<String,dynamic>,
+    doc.id)).toList());
+  }
+
+
 }

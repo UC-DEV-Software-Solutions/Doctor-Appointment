@@ -2,6 +2,7 @@ import 'package:firebase_testing/widgets/doctorDropDown.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/colours.dart';
+import '../../models/appointmentModel.dart';
 import '../../services/appointment.dart';
 import '../../widgets/paymentSelectionDialog.dart';
 import '../../widgets/previousAppointments.dart';
@@ -85,12 +86,6 @@ class _MakeappointmentState extends State<Makeappointment> {
 
   @override
   Widget build(BuildContext context) {
-
-    List<String> previousAppointments = [
-      'Appointment on 2024-09-01 with Dr. John',
-      'Appointment on 2024-08-15 with Dr. Jane',
-      'Appointment on 2024-08-10 with Dr. Mike',
-    ];
 
     return Scaffold(
       backgroundColor: mainWhite,
@@ -207,8 +202,29 @@ class _MakeappointmentState extends State<Makeappointment> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
-              Padding(padding: const EdgeInsets.all(16.0),
-                child: PreviousAppointments(previousAppointments: previousAppointments),)
+              StreamBuilder(
+                  stream: AppointmentService().getAppointments(),
+                  builder: (context,snapshot){
+                    if(snapshot.connectionState == ConnectionState.waiting){
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if(snapshot.hasError){
+                      return const Center(
+                        child: Text("Error Loading Appointments"),
+                      );
+                    } else if(!snapshot.hasData || snapshot.data!.isEmpty){
+                      return const Center(
+                        child: Text("No Previous Appointments"),
+                      );
+                    } else {
+                      final List<AppointmentModel> appointments = snapshot.data!;
+
+                      // Pass the list of AppointmentModel to PreviousAppointments
+                      return PreviousAppointments(previousAppointments: appointments);
+                    }
+
+              }),
             ],
           ),
         ),
