@@ -20,7 +20,9 @@ class PreviousAppointments extends StatelessWidget {
             subtitle: Text(
               'Phone: ${appointment.phoneNumber}\nAge: ${appointment.age}\nReason: ${appointment.reason}\nBooked On: ${appointment.createdAt}',
             ), // Display additional details like phone, age, and reason
-            trailing: const Icon(Icons.arrow_forward_ios),
+            trailing: IconButton(
+                onPressed: (){},
+                icon: const Icon(Icons.delete)),
           ),
         );
       },
