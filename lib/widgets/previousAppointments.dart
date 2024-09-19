@@ -10,6 +10,7 @@ class PreviousAppointments extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true, // Allows ListView inside a ScrollView or small container
+      physics: const NeverScrollableScrollPhysics(), // Prevents it from being independently scrollable
       itemCount: previousAppointments.length,
       itemBuilder: (context, index) {
         final appointment = previousAppointments[index]; // Access each AppointmentModel
