@@ -4,7 +4,7 @@ class DoctorModel{
   final String dName;
   final String dtitle;
   final String dDescription;
-  final String doctorPic;
+  final String? doctorPic;
 
   // Constructor
   DoctorModel({
@@ -12,7 +12,7 @@ class DoctorModel{
     required this.dName,
     required this.dtitle,
     required this.dDescription,
-    required this.doctorPic,
+    this.doctorPic,
   });
 
   // doctorData into json object
