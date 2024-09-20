@@ -22,7 +22,11 @@ class AppointmentService{
       final Map<String,dynamic> data = appointment.toJSON();
 
       // Add the Appointment Data to the collection
-      await _appointmentCollection.add(data);
+      final docRef = await _appointmentCollection.add(data);
+
+      // Update the appointment with the genarated id
+      await docRef.update({"aId":docRef.id});
+      print("Appointment Created. ID: ${docRef.id}");
 
       print("Appointment Successfully added");
 
