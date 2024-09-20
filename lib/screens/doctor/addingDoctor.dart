@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../constants/colours.dart';
 import '../../constants/styles.dart';
 import '../../services/doctorDetails.dart';
+import '../../widgets/statusBanner.dart';
 import '../../widgets/textField.dart';
 
 class Addingdoctor extends StatefulWidget {
@@ -41,10 +42,39 @@ class _AddingdoctorState extends State<Addingdoctor> {
     });
   }
 
+  String? statusMessage;
+  bool isSuccess = true;
+
   // Method to handle doctor registration
   Future<void> addDoctor() async {
-    if (_dNameController.text.isEmpty || _dtitleController.text.isEmpty || _dDescriptionController.text.isEmpty) {
-      return ;
+    // Clear previous messages
+    setState(() {
+      statusMessage = null;
+    });
+
+    // Check if any of the fields are empty
+    if (_dNameController.text.isEmpty) {
+      setState(() {
+        statusMessage = "Please enter the doctor's name.";
+        isSuccess = false;
+      });
+      return;
+    }
+
+    if (_dtitleController.text.isEmpty) {
+      setState(() {
+        statusMessage = "Please enter the doctor's title.";
+        isSuccess = false;
+      });
+      return;
+    }
+
+    if (_dDescriptionController.text.isEmpty) {
+      setState(() {
+        statusMessage = "Please enter the doctor's description.";
+        isSuccess = false;
+      });
+      return;
     }
 
     setState(() {
@@ -62,15 +92,15 @@ class _AddingdoctorState extends State<Addingdoctor> {
 
       setState(() {
         isLoading = false;
+        statusMessage = "Doctor added successfully!";
+        isSuccess = true;
       });
 
       // Optionally clear the inputs after successful registration
       _dNameController.clear();
       _dtitleController.clear();
       _dDescriptionController.clear();
-      setState(() {
-        _doctorPic = null;
-      });
+      _doctorPic = null;
 
       // Show success message or navigate away
     } catch (error) {
@@ -108,11 +138,12 @@ class _AddingdoctorState extends State<Addingdoctor> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Text(
-                  //   description,
-                  //   style: descriptionStyle,
-                  // ),
-                  // const Mainbanner(),
+                  // Show the status message if available
+                  if (statusMessage != null)
+                    StatusBanner(
+                      message: statusMessage,
+                      isSuccess: isSuccess,
+                    ),
                   const SizedBox(height: 10),
                   Stack(
                     children: [
