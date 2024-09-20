@@ -1,5 +1,7 @@
 import 'package:firebase_testing/constants/colours.dart';
 import 'package:flutter/material.dart';
+import '../../models/doctorModel.dart';
+import '../../services/doctorDetails.dart';
 import '../../widgets/doctorDropDown.dart';
 
 class Doctordetails extends StatefulWidget {
@@ -10,39 +12,43 @@ class Doctordetails extends StatefulWidget {
 }
 
 class _DoctordetailsState extends State<Doctordetails> {
-  // List of doctors with image and description
-  final Map<String, Map<String, String>> doctorDetails = {
-    'Dr. John': {
-      'image': 'assets/images/covid-19.png',
-      'title': 'Genaral Practiotioner',
-      'description': 'Dr. John is a renowned cardiologist with 10 years of experience.',
-    },
-    'Dr. Jane': {
-      'image': 'assets/images/GoogleIcon.png',
-      'title': 'Genaral Practiotioner',
-      'description': 'Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.Dr. Jane is a pediatrician with a special focus on child health.',
-    },
-    'Dr. Mike': {
-      'image': 'assets/images/dr_mike.png',
-      'title': 'Genaral Practiotioner',
-      'description': 'Dr. Mike is an orthopedic surgeon with expertise in sports injuries.',
-    },
-  };
+  List<DoctorModel> _doctors = [];
+  DoctorModel? _selectedDoctorDetails; // Variable to hold the selected doctor's details
 
-  // Variable to hold the currently selected doctor
-  String? _selectedDoctor;
+  // Fetch doctors from Firestore and update the dropdown
+  Future<void> _fetchDoctors() async {
+    try {
+      DoctorDetailsService doctorService = DoctorDetailsService();
+      // Using StreamBuilder for real-time updates
+      doctorService.getDoctors().listen((doctorList) {
+        setState(() {
+          _doctors = doctorList; // Get list of doctor models
+          // Automatically set the first doctor as the selected one
+          if (_doctors.isNotEmpty) {
+            _selectedDoctorDetails = _doctors.first; // Set first doctor as the selected one
+          }
+        });
+      });
+    } catch (error) {
+      print("Error fetching doctors: $error");
+    }
+  }
+
+  // Variable to hold the currently selected doctor's name
+  String? _selectedDoctorName;
 
   @override
   void initState() {
     super.initState();
-    // Set the first doctor from the map as the selected doctor initially
-    _selectedDoctor = doctorDetails.keys.first;
+    _fetchDoctors(); // Fetch doctors when the widget initializes
   }
 
   // Callback to update the selected doctor
-  void _handleDoctorSelection(String? selectedDoctor) {
+  void _handleDoctorSelection(String? selectedDoctorName) {
     setState(() {
-      _selectedDoctor = selectedDoctor;
+      _selectedDoctorName = selectedDoctorName;
+      // Find and update the selected doctor's details
+      _selectedDoctorDetails = _doctors.firstWhere((doc) => doc.dName == selectedDoctorName);
     });
   }
 
@@ -59,13 +65,13 @@ class _DoctordetailsState extends State<Doctordetails> {
             children: [
               // Doctor dropdown
               DoctorDropdown(
-                doctors: doctorDetails.keys.toList(), // Pass the list of doctor names
+                doctors: _doctors.map((doctor) => doctor.dName).toList(), // Pass the list of doctor names dynamically
                 onDoctorSelected: _handleDoctorSelection, // Callback to handle selection
               ),
               const SizedBox(height: 20),
-        
+
               // Display selected doctor details
-              if (_selectedDoctor != null)
+              if (_selectedDoctorDetails != null)
                 Container(
                   decoration: BoxDecoration(
                     color: mainBlue,
@@ -82,11 +88,13 @@ class _DoctordetailsState extends State<Doctordetails> {
                             radius: 100,
                             backgroundColor: Colors.transparent,
                             child: ClipOval(
-                              child: Image.asset(
-                                doctorDetails[_selectedDoctor]!['image']!,
+                              child: Image.network(
+                                _selectedDoctorDetails?.doctorPic ?? 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=1631&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Use doctorPic from Firestore
                                 width: 200,
                                 height: 200,
                                 fit: BoxFit.cover, // Ensures the image covers the circle
+                                errorBuilder: (context, error, stackTrace) =>
+                                const Icon(Icons.error), // Fallback for any error in image loading
                               ),
                             ),
                           ),
@@ -96,15 +104,15 @@ class _DoctordetailsState extends State<Doctordetails> {
 
                         Center(
                           child: Text(
-                            doctorDetails[_selectedDoctor]!['title']!,
-                            style: const TextStyle(fontSize: 20,),
+                            _selectedDoctorDetails!.dtitle, // Use title from Firestore
+                            style: const TextStyle(fontSize: 20),
                           ),
                         ),
 
                         const SizedBox(height: 10),
                         // Doctor Description
                         Text(
-                          doctorDetails[_selectedDoctor]!['description']!,
+                          _selectedDoctorDetails!.dDescription, // Use description from Firestore
                           style: const TextStyle(fontSize: 16),
                         ),
                       ],

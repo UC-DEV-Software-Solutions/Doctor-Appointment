@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:firebase_testing/utils/util_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -38,16 +37,15 @@ class _AddingdoctorState extends State<Addingdoctor> {
   void selectImage() async {
     Uint8List doctorPic = await pickImage(ImageSource.gallery);
     setState(() {
-      this._doctorPic = doctorPic;
+      _doctorPic = doctorPic;
     });
   }
 
   // Method to handle doctor registration
   Future<void> addDoctor() async {
-    // if (_doctorPic == null || _dNameController.text.isEmpty || _dtitleController.text.isEmpty || _dDescriptionController.text.isEmpty) {
-    //   // Handle validation (e.g., show an alert)
-    //   return;
-    // }
+    if (_dNameController.text.isEmpty || _dtitleController.text.isEmpty || _dDescriptionController.text.isEmpty) {
+      return ;
+    }
 
     setState(() {
       isLoading = true;
@@ -59,7 +57,7 @@ class _AddingdoctorState extends State<Addingdoctor> {
         _dNameController.text,
         _dtitleController.text,
         _dDescriptionController.text,
-        _doctorPic!,  // Pass the selected image as Uint8List
+        _doctorPic,
       );
 
       setState(() {
@@ -79,7 +77,7 @@ class _AddingdoctorState extends State<Addingdoctor> {
       setState(() {
         isLoading = false;
       });
-      // Handle error (e.g., show an alert)
+      // Handle error
       print('Error adding doctor: $error');
     }
   }
@@ -177,7 +175,7 @@ class _AddingdoctorState extends State<Addingdoctor> {
                                 controller: _dDescriptionController,
                                 hintText: "Description *",
                                 inputKeyboardType: TextInputType.text,
-                                isPassword: true
+                                isPassword: false
                             ),
                             // google
                             const SizedBox(
@@ -227,7 +225,7 @@ class _AddingdoctorState extends State<Addingdoctor> {
                             ),
                             isLoading
                                 ? const CircularProgressIndicator(
-                              color: primaryColor,
+                              color: mainBlue,
                             )
                                 :
                             GestureDetector(

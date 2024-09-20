@@ -11,12 +11,15 @@ class DoctorDetailsService{
 
   final StorageServices _storageServices = StorageServices();
 
-  Future<void> addDoctor(String dName,String dtitle,String dDescription,Uint8List doctorPic) async{
+  Future<void> addDoctor(String dName,String dtitle,String dDescription,Uint8List? doctorPic) async{
     try{
 
-      // upload the profilepic to the storage
-      String photoURL = await StorageServices().uploadImage(folderName: "DoctorImages", isPrescription: false, file: doctorPic);
+      String? photoURL;
 
+      if(doctorPic != null){
+        // upload the profilepic to the storage
+        photoURL = await StorageServices().uploadImage(folderName: "DoctorImages", isPrescription: false, file: doctorPic);
+      }
 
       final doctor = DoctorModel(
           id: "",

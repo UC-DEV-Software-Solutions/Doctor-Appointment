@@ -28,6 +28,11 @@ class _MakeappointmentState extends State<Makeappointment> {
       final doctorList = await doctorService.getDoctors().first;
       setState(() {
         _doctors = doctorList.map((doc) => doc.dName).toList(); // Get names of doctors
+
+        if (_doctors.isNotEmpty) {
+          _selectedDoctor = _doctors.first; // Set first doctor as the selected one
+        }
+
       });
     } catch (error) {
       print("Error fetching doctors: $error");
