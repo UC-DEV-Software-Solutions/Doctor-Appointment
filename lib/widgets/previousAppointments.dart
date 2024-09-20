@@ -2,6 +2,8 @@ import 'package:firebase_testing/services/appointment.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_testing/models/appointmentModel.dart';
 
+import '../utils/constants.dart';
+
 class PreviousAppointments extends StatelessWidget {
   final List<AppointmentModel> previousAppointments;
 
@@ -19,7 +21,7 @@ class PreviousAppointments extends StatelessWidget {
           child: ListTile(
             title: Text(appointment.patientName), // Display patient's name
             subtitle: Text(
-              'Phone: ${appointment.phoneNumber}\nAge: ${appointment.age}\nReason: ${appointment.reason}\nBooked On: ${appointment.createdAt}\nDoctor: ${appointment.doctorName}\nDate: ${appointment.selectedDate}',
+              'Phone: ${appointment.phoneNumber}\nAge: ${appointment.age}\nReason: ${appointment.reason}\nBooked On: ${appointment.createdAt}\nDoctor: ${appointment.doctorName}\nDate: ${getFormattedDate(appointment.selectedDate)}',
             ), // Display additional details like phone, age, and reason
             trailing: IconButton(
                 onPressed: () async{
