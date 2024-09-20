@@ -1,4 +1,5 @@
 import 'package:firebase_testing/services/auth.dart';
+import 'package:firebase_testing/widgets/Carosel.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/colours.dart';
@@ -53,6 +54,7 @@ class _HomeState extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Carosel(),
                 // Text(
                 //   description,
                 //   style: descriptionStyle,
