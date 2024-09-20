@@ -1,9 +1,12 @@
 import 'dart:typed_data';
 
+import 'package:firebase_testing/utils/util_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../constants/colours.dart';
 import '../../constants/styles.dart';
+import '../../services/doctorDetails.dart';
 import '../../widgets/textField.dart';
 
 class Addingdoctor extends StatefulWidget {
@@ -21,6 +24,65 @@ class _AddingdoctorState extends State<Addingdoctor> {
   final TextEditingController _dDescriptionController = TextEditingController();
   Uint8List? _doctorPic;
   bool isLoading = false;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _dNameController.dispose();
+    _dtitleController.dispose();
+    _dDescriptionController.dispose();
+  }
+
+  //this methode is for select the image from the gallery
+  void selectImage() async {
+    Uint8List doctorPic = await pickImage(ImageSource.gallery);
+    setState(() {
+      this._doctorPic = doctorPic;
+    });
+  }
+
+  // Method to handle doctor registration
+  Future<void> addDoctor() async {
+    // if (_doctorPic == null || _dNameController.text.isEmpty || _dtitleController.text.isEmpty || _dDescriptionController.text.isEmpty) {
+    //   // Handle validation (e.g., show an alert)
+    //   return;
+    // }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      // Call the method from DoctorDetailsService to add the doctor
+      await DoctorDetailsService().addDoctor(
+        _dNameController.text,
+        _dtitleController.text,
+        _dDescriptionController.text,
+        _doctorPic!,  // Pass the selected image as Uint8List
+      );
+
+      setState(() {
+        isLoading = false;
+      });
+
+      // Optionally clear the inputs after successful registration
+      _dNameController.clear();
+      _dtitleController.clear();
+      _dDescriptionController.clear();
+      setState(() {
+        _doctorPic = null;
+      });
+
+      // Show success message or navigate away
+    } catch (error) {
+      setState(() {
+        isLoading = false;
+      });
+      // Handle error (e.g., show an alert)
+      print('Error adding doctor: $error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,12 +119,12 @@ class _AddingdoctorState extends State<Addingdoctor> {
                   Stack(
                     children: [
                       //if the profile image is null show the default image
-                      // _profileImage != null
-                      //     ?CircleAvatar(
-                      //   radius: 50,
-                      //   backgroundColor: Colors.grey[300],
-                      //   backgroundImage: MemoryImage(_profileImage!),
-                      // ):
+                      _doctorPic != null
+                          ?CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors.grey[300],
+                        backgroundImage: MemoryImage(_doctorPic!),
+                      ):
                       const CircleAvatar(
                         radius: 50,
                         backgroundImage: NetworkImage(
@@ -80,7 +142,7 @@ class _AddingdoctorState extends State<Addingdoctor> {
                               borderRadius: BorderRadiusDirectional.circular(30),
                             ),
                             child: IconButton(
-                                onPressed: (){}
+                                onPressed: selectImage
                                 // selectImage
                                 ,
                                 icon: Icon(Icons.add_a_photo)),
@@ -163,14 +225,14 @@ class _AddingdoctorState extends State<Addingdoctor> {
                             const SizedBox(
                               height: 30,
                             ),
-                            // isLoading
-                            //     ? const CircularProgressIndicator(
-                            //   color: primaryColor,
-                            // )
-                            //     :
+                            isLoading
+                                ? const CircularProgressIndicator(
+                              color: primaryColor,
+                            )
+                                :
                             GestureDetector(
                               // Method For Register User
-                              onTap: (){},
+                              onTap: addDoctor,
                               child: Container(
                                   height: 40,
                                   width: 200,
@@ -180,7 +242,7 @@ class _AddingdoctorState extends State<Addingdoctor> {
                                       border: Border.all(width: 2, color: mainBlue)
                                   ),
                                   child: const Center(
-                                    child: Text("REGISTER",
+                                    child: Text("Add Doctor",
                                       style: TextStyle(color: Colors.white,
                                           fontWeight: FontWeight.w700),
                                     ),

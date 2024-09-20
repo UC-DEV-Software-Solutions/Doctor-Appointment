@@ -1,20 +1,29 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_testing/models/doctorModel.dart';
+import 'package:firebase_testing/services/storage.dart';
 
 class DoctorDetailsService{
 
   final CollectionReference _doctorCollection =
   FirebaseFirestore.instance.collection("doctors");
 
-  Future<void> addDoctor(String dName,String dtitle,String dDescription,String doctorPic) async{
+  final StorageServices _storageServices = StorageServices();
+
+  Future<void> addDoctor(String dName,String dtitle,String dDescription,Uint8List doctorPic) async{
     try{
+
+      // upload the profilepic to the storage
+      String photoURL = await StorageServices().uploadImage(folderName: "DoctorImages", isPrescription: false, file: doctorPic);
+
 
       final doctor = DoctorModel(
           id: "",
           dName: dName,
           dtitle: dtitle,
           dDescription: dDescription,
-          doctorPic: doctorPic,
+          doctorPic: photoURL,
       );
 
       // Convert the Doctor to a map

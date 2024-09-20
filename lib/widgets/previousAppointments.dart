@@ -19,7 +19,7 @@ class PreviousAppointments extends StatelessWidget {
           child: ListTile(
             title: Text(appointment.patientName), // Display patient's name
             subtitle: Text(
-              'Phone: ${appointment.phoneNumber}\nAge: ${appointment.age}\nReason: ${appointment.reason}\nBooked On: ${appointment.createdAt}',
+              'Phone: ${appointment.phoneNumber}\nAge: ${appointment.age}\nReason: ${appointment.reason}\nBooked On: ${appointment.createdAt}\nDoctor: ${appointment.doctorName}',
             ), // Display additional details like phone, age, and reason
             trailing: IconButton(
                 onPressed: () async{

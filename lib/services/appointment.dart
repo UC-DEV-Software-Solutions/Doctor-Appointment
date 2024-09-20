@@ -6,7 +6,7 @@ class AppointmentService{
   final CollectionReference _appointmentCollection =
       FirebaseFirestore.instance.collection("appointments");
 
-  Future<void> addAppointment(String name,String phoneNumber,int age,String reason) async{
+  Future<void> addAppointment(String name,String phoneNumber,int age,String doctorName,String reason) async{
     try{
 
       final appointment = AppointmentModel(
@@ -14,6 +14,7 @@ class AppointmentService{
           patientName: name,
           phoneNumber: phoneNumber,
           age: age,
+          doctorName: doctorName,
           reason: reason,
           createdAt: DateTime.now()
       );

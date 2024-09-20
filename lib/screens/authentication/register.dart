@@ -158,7 +158,7 @@ class _RegisterState extends State<Register> {
                         ),
                         child: IconButton(
                             onPressed: selectImage,
-                            icon: Icon(Icons.add_a_photo)),
+                            icon: const Icon(Icons.add_a_photo)),
                       ))
                     ],
                   ),

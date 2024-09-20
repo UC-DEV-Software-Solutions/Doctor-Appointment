@@ -5,7 +5,7 @@ class AppointmentModel{
   final String patientName;
   final String phoneNumber;
   final int age;
-  // final String doctorName;
+  final String doctorName;
   final String? reason;
   final DateTime createdAt;
 
@@ -15,7 +15,7 @@ class AppointmentModel{
     required this.patientName,
     required this.phoneNumber,
     required this.age,
-    // required this.doctorName,
+    required this.doctorName,
     this.reason,
     required this.createdAt
 });
@@ -26,6 +26,7 @@ class AppointmentModel{
       'patientName':patientName,
       'phoneNumber':phoneNumber,
       'age':age,
+      'doctorName':doctorName,
       'reason':reason,
       'createdAt':createdAt
     };
@@ -38,6 +39,7 @@ class AppointmentModel{
         patientName: doc['patientName'],
         phoneNumber: doc['phoneNumber'],
         age: doc['age'],
+        doctorName: doc['doctorName'],
         reason: doc['reason'],
         createdAt: (doc['createdAt'] as Timestamp).toDate(),
     );

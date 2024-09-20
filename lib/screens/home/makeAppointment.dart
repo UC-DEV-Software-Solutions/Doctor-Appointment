@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../constants/colours.dart';
 import '../../models/appointmentModel.dart';
 import '../../services/appointment.dart';
+import '../../services/doctorDetails.dart';
 import '../../widgets/paymentSelectionDialog.dart';
 import '../../widgets/previousAppointments.dart';
 import '../../widgets/textField.dart';
@@ -15,16 +16,35 @@ class Makeappointment extends StatefulWidget {
 
 class _MakeappointmentState extends State<Makeappointment> {
   // const Makeappointment({super.key});
-  final List<String> _doctors = ['Dr. Mahesh', 'Dr. Supun', 'Dr. Nioshani'];
+  List<String> _doctors = [];
 
   // This will store the selected doctor
   String? _selectedDoctor;
+
+  // Fetch doctors from Firestore and update the dropdown
+  Future<void> _fetchDoctors() async {
+    try {
+      DoctorDetailsService doctorService = DoctorDetailsService();
+      final doctorList = await doctorService.getDoctors().first;
+      setState(() {
+        _doctors = doctorList.map((doc) => doc.dName).toList(); // Get names of doctors
+      });
+    } catch (error) {
+      print("Error fetching doctors: $error");
+    }
+  }
 
   // Callback function to handle doctor selection
   void _handleDoctorSelection(String? selectedDoctor) {
     setState(() {
       _selectedDoctor = selectedDoctor;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchDoctors(); // Fetch doctors when the screen loads
   }
 
   void _showPaymentDialog(BuildContext context) {
@@ -71,8 +91,6 @@ class _MakeappointmentState extends State<Makeappointment> {
   final TextEditingController _ageController = TextEditingController();
 
   final TextEditingController _reasonController = TextEditingController();
-
-  final TextEditingController _doctorNameController = TextEditingController();
 
   @override
   void dispose() {
@@ -182,7 +200,7 @@ class _MakeappointmentState extends State<Makeappointment> {
                   ),
                   onPressed: () async{
 
-                    await AppointmentService().addAppointment(_patientNameController.text, _phoneNumberController.text,int.parse(_ageController.text), _reasonController.text);
+                    await AppointmentService().addAppointment(_patientNameController.text, _phoneNumberController.text,int.parse(_ageController.text),_selectedDoctor!, _reasonController.text,);
                     _patientNameController.clear();
                     _phoneNumberController.clear();
                     _ageController.clear();
