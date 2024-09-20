@@ -21,6 +21,8 @@ class _MakeappointmentState extends State<Makeappointment> {
   // This will store the selected doctor
   String? _selectedDoctor;
 
+  DateTime _selectedDate = DateTime.now();
+
   // Fetch doctors from Firestore and update the dropdown
   Future<void> _fetchDoctors() async {
     try {
@@ -97,6 +99,7 @@ class _MakeappointmentState extends State<Makeappointment> {
 
   final TextEditingController _reasonController = TextEditingController();
 
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -135,6 +138,9 @@ class _MakeappointmentState extends State<Makeappointment> {
                 lastDate: DateTime(2100),  // The latest date that can be selected
                 onDateChanged: (DateTime selectedDate) {
                   // Handle the date selection
+                  setState(() {
+                    _selectedDate = selectedDate;
+                  });
                   print("Selected date: $selectedDate");
                 },
               ),
@@ -205,7 +211,7 @@ class _MakeappointmentState extends State<Makeappointment> {
                   ),
                   onPressed: () async{
 
-                    await AppointmentService().addAppointment(_patientNameController.text, _phoneNumberController.text,int.parse(_ageController.text),_selectedDoctor!, _reasonController.text,);
+                    await AppointmentService().addAppointment(_patientNameController.text, _phoneNumberController.text,int.parse(_ageController.text),_selectedDoctor!, _reasonController.text,_selectedDate);
                     _patientNameController.clear();
                     _phoneNumberController.clear();
                     _ageController.clear();

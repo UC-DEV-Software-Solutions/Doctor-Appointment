@@ -6,7 +6,7 @@ class AppointmentService{
   final CollectionReference _appointmentCollection =
       FirebaseFirestore.instance.collection("appointments");
 
-  Future<void> addAppointment(String name,String phoneNumber,int age,String doctorName,String reason) async{
+  Future<void> addAppointment(String name,String phoneNumber,int age,String doctorName,String reason,DateTime selectedDate) async{
     try{
 
       final appointment = AppointmentModel(
@@ -16,7 +16,8 @@ class AppointmentService{
           age: age,
           doctorName: doctorName,
           reason: reason,
-          createdAt: DateTime.now()
+          createdAt: DateTime.now(),
+          selectedDate: selectedDate,
       );
 
       // Convert the Appointment to a map

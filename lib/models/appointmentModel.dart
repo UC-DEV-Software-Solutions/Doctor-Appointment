@@ -8,6 +8,7 @@ class AppointmentModel{
   final String doctorName;
   final String? reason;
   final DateTime createdAt;
+  final DateTime selectedDate;
 
   // Constructor
   AppointmentModel({
@@ -17,7 +18,8 @@ class AppointmentModel{
     required this.age,
     required this.doctorName,
     this.reason,
-    required this.createdAt
+    required this.createdAt,
+    required this.selectedDate
 });
 
   // AppointmentData into json object
@@ -28,7 +30,8 @@ class AppointmentModel{
       'age':age,
       'doctorName':doctorName,
       'reason':reason,
-      'createdAt':createdAt
+      'createdAt':createdAt,
+      'selectedDate': selectedDate
     };
   }
 
@@ -42,6 +45,7 @@ class AppointmentModel{
         doctorName: doc['doctorName'],
         reason: doc['reason'],
         createdAt: (doc['createdAt'] as Timestamp).toDate(),
+      selectedDate: (doc['selectedDate'] as Timestamp).toDate(),
     );
   }
 
