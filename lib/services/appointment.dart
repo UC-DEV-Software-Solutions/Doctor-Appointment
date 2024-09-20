@@ -6,7 +6,7 @@ class AppointmentService{
   final CollectionReference _appointmentCollection =
       FirebaseFirestore.instance.collection("appointments");
 
-  Future<void> addAppointment(String name,String phoneNumber,int age,String doctorName,String reason,DateTime selectedDate) async{
+  Future<void> addAppointment(String name,String phoneNumber,int age,String doctorName,String reason,DateTime selectedDate,String uId) async{
     try{
 
       final appointment = AppointmentModel(
@@ -18,6 +18,7 @@ class AppointmentService{
           reason: reason,
           createdAt: DateTime.now(),
           selectedDate: selectedDate,
+          uId: uId
       );
 
       // Convert the Appointment to a map
@@ -42,6 +43,21 @@ class AppointmentService{
     return _appointmentCollection.snapshots().map((snapshot)=>snapshot.docs
     .map((doc)=> AppointmentModel.fromJSON(doc.data() as Map<String,dynamic>,
     doc.id)).toList());
+  }
+
+  // Method to get Appointments filtered by a specific field and value
+  Stream<List<AppointmentModel>> getAppointmentsWhere({
+    required String field,
+    required String isEqualTo,
+  }) {
+    return _appointmentCollection
+        .where(field, isEqualTo: isEqualTo)
+        .snapshots()
+        .map(
+            (snapshot) => snapshot.docs
+            .map((doc) => AppointmentModel.fromJSON(
+            doc.data() as Map<String, dynamic>, doc.id))
+            .toList());
   }
 
   Future<void> deleteAppointment(String aId) async{

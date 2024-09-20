@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../constants/colours.dart';
+import '../../models/UserModel.dart';
 import '../../models/appointmentModel.dart';
 import '../../services/appointment.dart';
+import '../../services/auth.dart';
 import '../../services/doctorDetails.dart';
 import '../../widgets/paymentSelectionDialog.dart';
 import '../../widgets/previousAppointments.dart';
+import '../../widgets/statusBanner.dart';
 import '../../widgets/textField.dart';
 
 class Makeappointment extends StatefulWidget {
@@ -16,13 +19,18 @@ class Makeappointment extends StatefulWidget {
 }
 
 class _MakeappointmentState extends State<Makeappointment> {
-  // const Makeappointment({super.key});
   List<String> _doctors = [];
 
-  // This will store the selected doctor
-  String? _selectedDoctor;
+  Future<UserModel>? _userData;
 
+  String? _selectedDoctor;
   DateTime _selectedDate = DateTime.now();
+
+  // Controllers for TextFields
+  final TextEditingController _patientNameController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
+  final TextEditingController _reasonController = TextEditingController();
 
   // Fetch doctors from Firestore and update the dropdown
   Future<void> _fetchDoctors() async {
@@ -30,12 +38,10 @@ class _MakeappointmentState extends State<Makeappointment> {
       DoctorDetailsService doctorService = DoctorDetailsService();
       final doctorList = await doctorService.getDoctors().first;
       setState(() {
-        _doctors = doctorList.map((doc) => doc.dName).toList(); // Get names of doctors
-
+        _doctors = doctorList.map((doc) => doc.dName).toList();
         if (_doctors.isNotEmpty) {
-          _selectedDoctor = _doctors.first; // Set first doctor as the selected one
+          _selectedDoctor = _doctors.first;
         }
-
       });
     } catch (error) {
       print("Error fetching doctors: $error");
@@ -52,7 +58,8 @@ class _MakeappointmentState extends State<Makeappointment> {
   @override
   void initState() {
     super.initState();
-    _fetchDoctors(); // Fetch doctors when the screen loads
+    _fetchDoctors();
+    _userData = AuthServices().getCurrentUser();
   }
 
   void _showPaymentDialog(BuildContext context) {
@@ -61,7 +68,6 @@ class _MakeappointmentState extends State<Makeappointment> {
       builder: (BuildContext context) {
         return PaymentSelectionDialog(
           onPaymentOptionSelected: (selectedOption) {
-            // Handle selected payment option
             print("Selected Payment Method: $selectedOption");
           },
         );
@@ -69,51 +75,86 @@ class _MakeappointmentState extends State<Makeappointment> {
     );
   }
 
+  String? statusMessage;
+  bool isSuccess = true;
 
-// Function from ChatGPT
-  Future<void> _saveAppointmentToFirestore(BuildContext context) async {
+  // Method to handle form validation and appointment creation
+  Future<void> _makeAppointment(BuildContext context, String uId) async {
+
+    // Clear previous messages
+    setState(() {
+      statusMessage = null;
+    });
+
+    // Check if any of the fields are empty
+    if (_patientNameController.text.isEmpty) {
+      setState(() {
+        statusMessage = "Please enter the patient's name.";
+        isSuccess = false;
+      });
+      return;
+    }
+
+    if (_phoneNumberController.text.isEmpty) {
+      setState(() {
+        statusMessage = "Please enter the patient's phone number.";
+        isSuccess = false;
+      });
+      return;
+    }
+
+    if (_ageController.text.isEmpty) {
+      setState(() {
+        statusMessage = "Please enter the patient's age.";
+        isSuccess = false;
+      });
+      return;
+    }
+
     try {
-      // Replace with your Firestore collection and document structure
-      // await FirebaseFirestore.instance.collection('appointments').add({
-      //   'doctorName': _doctorNameController.text,
-      //   'patientName': _patientNameController.text,
-      //   'appointmentDate': appointmentDate,
-      //   'createdAt': FieldValue.serverTimestamp(),
-      // });
+      // Create appointment
+      await AppointmentService().addAppointment(
+        _patientNameController.text,
+        _phoneNumberController.text,
+        int.parse(_ageController.text),
+        _selectedDoctor!,
+        _reasonController.text,
+        _selectedDate,
+        uId,
+      );
 
-      // Open the payment selection dialog after saving data
-      _showPaymentDialog(context);
+      // Clear fields after submission
+      _patientNameController.clear();
+      _phoneNumberController.clear();
+      _ageController.clear();
+      _reasonController.clear();
+
+      setState(() {
+        statusMessage = "Appointment booked successfully!";
+        isSuccess = true;
+      });
+
+      // // Show payment dialog after making the appointment
+      // _showPaymentDialog(context);
     } catch (error) {
-      print('Failed to save appointment: $error');
+      print('Failed to make appointment: $error');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to make an appointment. Please try again.')),
+        const SnackBar(content: Text('Failed to make an appointment. Please try again.')),
       );
     }
   }
 
-  // Controllers for TextFields
-  final TextEditingController _patientNameController = TextEditingController();
-
-  final TextEditingController _phoneNumberController = TextEditingController();
-
-  final TextEditingController _ageController = TextEditingController();
-
-  final TextEditingController _reasonController = TextEditingController();
-
-
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
     _ageController.dispose();
     _patientNameController.dispose();
     _phoneNumberController.dispose();
     _reasonController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: mainWhite,
       appBar: AppBar(
@@ -125,36 +166,27 @@ class _MakeappointmentState extends State<Makeappointment> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Calendar Section
               const Text(
                 'Select Date',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
-              // Placeholder for a Calendar widget, replace it with any actual calendar package widget
               CalendarDatePicker(
-
-                initialDate: DateTime.now(), // The current date as the initial selection
-                firstDate: DateTime(2000), // The earliest date that can be selected
-                lastDate: DateTime(2100),  // The latest date that can be selected
+                initialDate: DateTime.now(),
+                firstDate: DateTime(2000),
+                lastDate: DateTime(2100),
                 onDateChanged: (DateTime selectedDate) {
-                  // Handle the date selection
                   setState(() {
                     _selectedDate = selectedDate;
                   });
-                  print("Selected date: $selectedDate");
                 },
               ),
-
               const SizedBox(height: 10),
-
               DoctorDropdown(
                 doctors: _doctors,
-                onDoctorSelected: _handleDoctorSelection, // Callback for selection
+                onDoctorSelected: _handleDoctorSelection,
               ),
               const SizedBox(height: 20),
-
-              // Display the selected doctor
               Text(
                 _selectedDoctor == null
                     ? "No doctor selected"
@@ -162,99 +194,114 @@ class _MakeappointmentState extends State<Makeappointment> {
                 style: const TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 10),
-
-              // Patient Details Form
               const Text(
                 'Patient Details',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
-              Form(child: Column(
-                children: [
-                  TextInputField(
+              Form(
+                child: Column(
+                  children: [
+                    // Show the status message if available
+                    if (statusMessage != null)
+                      StatusBanner(
+                        message: statusMessage,
+                        isSuccess: isSuccess,
+                      ),
+                    SizedBox(height: 7,),
+                    TextInputField(
                       controller: _patientNameController,
                       hintText: "Full Name *",
                       inputKeyboardType: TextInputType.text,
-                      isPassword: false
-                  ),
-                  const SizedBox(height: 20,),
-                  TextInputField(
+                      isPassword: false,
+                    ),
+                    const SizedBox(height: 20),
+                    TextInputField(
                       controller: _phoneNumberController,
                       hintText: "Phone Number *",
                       inputKeyboardType: TextInputType.number,
-                      isPassword: false
-                  ),
-                  const SizedBox(height: 20,),
-                  TextInputField(
+                      isPassword: false,
+                    ),
+                    const SizedBox(height: 20),
+                    TextInputField(
                       controller: _ageController,
                       hintText: "Age *",
                       inputKeyboardType: TextInputType.number,
-                      isPassword: false
-                  ),
-                  const SizedBox(height: 20,),
-                  TextInputField(
+                      isPassword: false,
+                    ),
+                    const SizedBox(height: 20),
+                    TextInputField(
                       controller: _reasonController,
                       hintText: "Symptoms/Reason for Appointment",
                       inputKeyboardType: TextInputType.text,
-                      isPassword: false
-                  ),
-                ],
-              )),
-              const SizedBox(height: 20),
-
-              // Make Appointment Button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: const ButtonStyle(
-                    backgroundColor: MaterialStatePropertyAll(Colors.red),
-                    foregroundColor: MaterialStatePropertyAll(bgBlack),
-                  ),
-                  onPressed: () async{
-
-                    await AppointmentService().addAppointment(_patientNameController.text, _phoneNumberController.text,int.parse(_ageController.text),_selectedDoctor!, _reasonController.text,_selectedDate);
-                    _patientNameController.clear();
-                    _phoneNumberController.clear();
-                    _ageController.clear();
-                    _reasonController.clear();
-
-                    // Save data to Firestore and open the payment dialog
-                    // _saveAppointmentToFirestore(context);
-                  },
-                  child: const Text('Make Appointment'),
+                      isPassword: false,
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 20),
 
-              // Previous Appointments List
+              FutureBuilder<UserModel>(
+                future: _userData,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError || !snapshot.hasData) {
+                    return const Text("Error fetching user data");
+                  }
+
+                  final user = snapshot.data!;
+                  return SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: const ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(Colors.red),
+                        foregroundColor: MaterialStatePropertyAll(bgBlack),
+                      ),
+                      onPressed: () => _makeAppointment(context, user.uid),
+                      child: const Text('Make Appointment'),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 20),
               const Text(
                 'Previous Appointments',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
-              StreamBuilder(
-                  stream: AppointmentService().getAppointments(),
-                  builder: (context,snapshot){
-                    if(snapshot.connectionState == ConnectionState.waiting){
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if(snapshot.hasError){
-                      return const Center(
-                        child: Text("Error Loading Appointments"),
-                      );
-                    } else if(!snapshot.hasData || snapshot.data!.isEmpty){
-                      return const Center(
-                        child: Text("No Previous Appointments"),
-                      );
-                    } else {
-                      final List<AppointmentModel> appointments = snapshot.data!;
+              FutureBuilder<UserModel>(
+                future: _userData,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError || !snapshot.hasData) {
+                    return const Text("Error fetching user data");
+                  }
 
-                      // Pass the list of AppointmentModel to PreviousAppointments
-                      return PreviousAppointments(previousAppointments: appointments);
-                    }
-
-              }),
+                  final user = snapshot.data!;
+                  return StreamBuilder<List<AppointmentModel>>(
+                    stream: AppointmentService().getAppointmentsWhere(
+                      field: 'uId',
+                      isEqualTo: user.uid,
+                    ),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return const Center(child: Text("Error Loading Appointments"));
+                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return const Center(child: Text("No Previous Appointments"));
+                      } else {
+                        final List<AppointmentModel> appointments = snapshot.data!;
+                        return PreviousAppointments(previousAppointments: appointments);
+                      }
+                    },
+                  );
+                },
+              ),
             ],
           ),
         ),
