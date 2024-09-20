@@ -2,6 +2,8 @@ import 'package:firebase_testing/constants/colours.dart';
 import 'package:firebase_testing/screens/doctor/addingDoctor.dart';
 import 'package:flutter/material.dart';
 
+import '../appointmentList.dart';
+
 class Extracollection extends StatefulWidget {
   const Extracollection({super.key});
 
@@ -61,11 +63,35 @@ class _ExtracollectionState extends State<Extracollection> {
             ),
             const Divider(),
             const Text(
-              "Appearance",
+              "Appointments",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
+            ),
+            ListTile(
+              title: const Text("Appointment List"),
+              leading: const Icon(Icons.font_download),
+              onTap: () {
+                // Handle font size tap
+                showDialog(
+                  context: context,
+                  builder: (context) => const AppointmentList(),
+                );
+              },
+            ),
+
+            const Divider(),
+            ListTile(
+              title: const Text("Font Size"),
+              leading: const Icon(Icons.font_download),
+              onTap: () {
+                // Handle font size tap
+                // showDialog(
+                //   context: context,
+                //   builder: (context) => FontSizeChanger(),
+                // );
+              },
             ),
             ListTile(
               title: const Text("Dark Mode"),
