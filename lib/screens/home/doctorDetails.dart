@@ -89,7 +89,7 @@ class _DoctordetailsState extends State<Doctordetails> {
                             backgroundColor: Colors.transparent,
                             child: ClipOval(
                               child: Image.network(
-                                _selectedDoctorDetails?.doctorPic ?? 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=1631&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Use doctorPic from Firestore
+                                _selectedDoctorDetails?.doctorPic ?? 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=1631&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                                 width: 200,
                                 height: 200,
                                 fit: BoxFit.cover, // Ensures the image covers the circle

@@ -58,8 +58,18 @@ class _ProfileState extends State<Profile> {
                     // Profile Picture
                     Center(
                       child: CircleAvatar(
-                        radius: 60,
-                        backgroundImage: NetworkImage(user?.profilePic ?? 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=1631&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+                        radius: 100,
+                        backgroundColor: Colors.transparent,
+                        child: ClipOval(
+                          child: Image.network(
+                            user?.profilePic ?? 'https://images.unsplash.com/photo-1511367461989-f85a21fda167?q=80&w=1631&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                            width: 200,
+                            height: 200,
+                            fit: BoxFit.cover, // Ensures the image covers the circle
+                            errorBuilder: (context, error, stackTrace) =>
+                            const Icon(Icons.error), // Fallback for any error in image loading
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -130,89 +140,3 @@ class _ProfileState extends State<Profile> {
     );
   }
 }
-
-
-//   Scaffold(
-//   backgroundColor: mainWhite,
-//   appBar: AppBar(
-//   title: const Text('Profile'),
-//   // backgroundColor: Colors.blueAccent,
-//   elevation: 0,
-//   actions: [
-//   IconButton(
-//   onPressed: () {
-//   Navigator.push(
-//   context,
-//   MaterialPageRoute(builder: (context) => const Extracollection()),
-//   );
-//   },
-//   icon: const Icon(Icons.settings),
-//   ),
-//   ],
-//   ),
-//   body: SingleChildScrollView(
-//   child: Padding(
-//   padding: const EdgeInsets.all(16.0),
-//   child: Column(
-//   children: [
-//   // Profile Picture
-//   Center(
-//   child: CircleAvatar(
-//   radius: 60,
-//   backgroundImage: NetworkImage(
-//   'https://via.placeholder.com/150'), // Replace with actual image URL
-//   ),
-//   ),
-//   const SizedBox(height: 20),
-//
-//   // User Name
-//   const Text(
-//   'John Doe', // Replace with dynamic user data
-//   style: TextStyle(
-//   fontSize: 24,
-//   fontWeight: FontWeight.bold,
-//   ),
-//   ),
-//   const SizedBox(height: 8),
-//
-//   // User Email
-//   const Text(
-//   'johndoe@example.com', // Replace with dynamic user data
-//   style: TextStyle(
-//   fontSize: 16,
-//   color: Colors.grey,
-//   ),
-//   ),
-//   const SizedBox(height: 20),
-//
-//   // Edit Profile Button
-//   ElevatedButton.icon(
-//   onPressed: () {
-//   // Navigate to edit profile page
-//   },
-//   icon: const Icon(Icons.edit),
-//   label: const Text('Edit Profile'),
-//   style: ElevatedButton.styleFrom(
-//   minimumSize: const Size(double.infinity, 50), // Full width button
-//   ),
-//   ),
-//   const SizedBox(height: 10),
-//
-//   // Logout Button
-//   OutlinedButton.icon(
-//   onPressed: () {
-//   // Perform logout action
-//   },
-//   icon: const Icon(Icons.logout),
-//   label: const Text('Logout'),
-//   style: OutlinedButton.styleFrom(
-//   minimumSize: const Size(double.infinity, 50), // Full width button
-//   ),
-//   ),
-//   ],
-//   ),
-//   ),
-//   ),
-//   );
-// }
-// }

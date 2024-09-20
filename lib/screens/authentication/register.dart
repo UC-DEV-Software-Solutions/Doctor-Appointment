@@ -50,7 +50,7 @@ class _RegisterState extends State<Register> {
       email: email,
       password: password,
       userName: userName,
-      profilePic: _profileImage!,
+      profilePic: _profileImage,
     );
 
     //show the snakbar if the user is created or not

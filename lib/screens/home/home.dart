@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../constants/colours.dart';
 import '../../constants/styles.dart';
+import '../wrapper.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -36,6 +37,12 @@ class _HomeState extends State<Home> {
                 ),
                 onPressed: () async{
               await _auth.signOut();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Wrapper(), // Replace with your SignIn page widget
+                ),
+              );
             }, child: const Icon(Icons.logout))
           ],
       ),

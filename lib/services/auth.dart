@@ -60,18 +60,20 @@ class AuthServices{
     required String email,
     required String password,
     required String userName,
-    required Uint8List profilePic,
+    Uint8List? profilePic,
 }) async {
     String res = "An error occurred";
     try{
-      if(userName.isNotEmpty &&
-      password.isNotEmpty &&
-      email.isNotEmpty && profilePic.isNotEmpty){
+      if(userName.isNotEmpty && password.isNotEmpty && email.isNotEmpty ){
         UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-        
-        // upload the profilepic to the storage
-        String photoURL = await StorageServices().uploadImage(folderName: "ProfileImages", isPrescription: false, file: profilePic);
+
+        String photoURL = "";
+
+        if(profilePic != null){
+          // upload the profilepic to the storage
+          photoURL = await StorageServices().uploadImage(folderName: "ProfileImages", isPrescription: false, file: profilePic);
+        }
 
         UserModel user = UserModel(uid: _auth.currentUser!.uid,email: email,userName: userName,profilePic: photoURL);
 

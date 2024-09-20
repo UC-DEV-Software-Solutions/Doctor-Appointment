@@ -5,14 +5,14 @@ class UserModel{
   final String uid;
   final String email;
   final String userName;
-  final String profilePic;
+  final String? profilePic;
 
   // constructor
   UserModel({
     required this.uid,
     required this.email,
     required this.userName,
-    required this.profilePic,
+    this.profilePic,
   });
 
   // userData into json object
