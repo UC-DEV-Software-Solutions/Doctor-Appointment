@@ -46,8 +46,8 @@ class _ProfileState extends State<Profile> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
-          // } else if (snapshot.hasError) {
-          //   return const Center(child: Text('Error loading profile data'));
+          } else if (snapshot.hasError) {
+            return const Center(child: Text('Error loading profile data'));
           } else if (snapshot.hasData) {
             UserModel? user = snapshot.data;
             return SingleChildScrollView(
