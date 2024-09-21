@@ -54,11 +54,7 @@ class _HomeState extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Carosel(),
-                // Text(
-                //   description,
-                //   style: descriptionStyle,
-                // ),
+                Carosel('carouselImages'),
                 Center(
                     child: Image.asset('assets/images/covid-19.png',
                       height: 400,
@@ -70,10 +66,6 @@ class _HomeState extends State<Home> {
                   child: Form(
                       child: Column(
                         children: [
-
-
-                          // password
-
                           // google
                           const SizedBox(
                             height: 20,
