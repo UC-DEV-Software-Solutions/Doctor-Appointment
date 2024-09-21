@@ -80,6 +80,25 @@ class _ExtracollectionState extends State<Extracollection> {
                 );
               },
             ),
+            const Divider(),
+            const Text(
+              "Appointments",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            ListTile(
+              title: const Text("Carousel Images"),
+              leading: const Icon(Icons.photo),
+              onTap: () {
+                // Handle font size tap
+                // showDialog(
+                //   context: context,
+                //   builder: (context) => EditCarouselScreen(),
+                // );
+              },
+            ),
 
             const Divider(),
             ListTile(
