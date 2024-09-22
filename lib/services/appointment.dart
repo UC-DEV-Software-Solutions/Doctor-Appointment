@@ -80,23 +80,23 @@ class AppointmentService{
     }
   }
 
-  // Method to get the current running appointment for a doctor on a specific day
-  Future<AppointmentModel?> getCurrentRunningAppointment(
-      String doctorName, DateTime selectedDate) async {
-    final QuerySnapshot snapshot = await _appointmentCollection
-        .where('doctorName', isEqualTo: doctorName)
-        .where('selectedDate', isEqualTo: selectedDate)
-        .where('status', isEqualTo: 'in-progress') // Get the running appointment
-        .limit(1)
-        .get();
-
-    if (snapshot.docs.isNotEmpty) {
-      var appointmentData = snapshot.docs.first.data() as Map<String, dynamic>;
-      return AppointmentModel.fromJSON(appointmentData, snapshot.docs.first.id);
-    } else {
-      return null; // No running appointment found
-    }
-  }
+  // // Method to get the current running appointment for a doctor on a specific day
+  // Future<AppointmentModel?> getCurrentRunningAppointment(
+  //     String doctorName, DateTime selectedDate) async {
+  //   final QuerySnapshot snapshot = await _appointmentCollection
+  //       .where('doctorName', isEqualTo: doctorName)
+  //       .where('selectedDate', isEqualTo: selectedDate)
+  //       .where('status', isEqualTo: 'in-progress') // Get the running appointment
+  //       .limit(1)
+  //       .get();
+  //
+  //   if (snapshot.docs.isNotEmpty) {
+  //     var appointmentData = snapshot.docs.first.data() as Map<String, dynamic>;
+  //     return AppointmentModel.fromJSON(appointmentData, snapshot.docs.first.id);
+  //   } else {
+  //     return null; // No running appointment found
+  //   }
+  // }
 
   // Add this method in AppointmentService
   Future<void> updateAppointmentStatus(String appointmentId, bool isCompleted) async {
