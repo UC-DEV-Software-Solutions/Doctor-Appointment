@@ -33,7 +33,10 @@ class DoctorDetailsService{
       final Map<String,dynamic> data = doctor.toJSON();
 
       // Add the Doctor Data to the collection
-      await _doctorCollection.add(data);
+      final docRef = await _doctorCollection.add(data);
+
+      // Update the appointment with the genarated id
+      await docRef.update({"id":docRef.id});
 
       print("Doctor Successfully added");
 

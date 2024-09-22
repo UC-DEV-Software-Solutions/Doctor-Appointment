@@ -22,6 +22,7 @@ class DoctorModel{
       'dtitle':dtitle,
       'dDescription':dDescription,
       'doctorPic':doctorPic,
+      'id': id,
     };
   }
 
