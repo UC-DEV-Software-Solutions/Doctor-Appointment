@@ -51,25 +51,25 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
         color: mainBlue, // Navigation bar background color
         items: [
           Icon(
-            Icons.home,
+            Icons.home_filled,
             color: _page == 0 ? bgBlack : mainWhite,
           ),
           Icon(
-            Icons.book_online,
+            Icons.calendar_month,
             color: _page == 1 ? bgBlack : mainWhite,
           ),
           Icon(
-            Icons.medication,
+            Icons.people,
             color: _page == 2 ? bgBlack : mainWhite,
           ),
           Icon(
-            Icons.person,
+            Icons.list,
             color: _page == 3 ? bgBlack : mainWhite,
           ),
-          // Icon(
-          //   Icons.person,
-          //   color: _page == 4 ? primaryColor : secondaryColor,
-          // ),
+          Icon(
+            Icons.person,
+            color: _page == 4 ? bgBlack : mainWhite,
+          ),
         ],
         onTap: navigationTapped, // Switch page on tap
       ),

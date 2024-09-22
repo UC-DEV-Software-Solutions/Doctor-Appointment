@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_testing/models/UserModel.dart';
 import 'package:firebase_testing/providers/user_provider.dart';
@@ -15,6 +16,7 @@ import '../constants/colours.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // to initialize firebase
 
+
   // Check whether the WEB app or Mobile app run
   if(kIsWeb){
     await Firebase.initializeApp(
@@ -29,6 +31,7 @@ void main() async {
   }else{
     await Firebase.initializeApp();  // to initialize firebase
   }
+  FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: false);
   runApp(const MyApp());
 }
 

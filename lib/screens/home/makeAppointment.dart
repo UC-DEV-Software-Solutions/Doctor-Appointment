@@ -158,6 +158,7 @@ class _MakeappointmentState extends State<Makeappointment> {
     return Scaffold(
       backgroundColor: mainWhite,
       appBar: AppBar(
+        backgroundColor: mainWhite,
         title: const Text('Make Appointment'),
       ),
       body: Padding(
@@ -267,41 +268,41 @@ class _MakeappointmentState extends State<Makeappointment> {
               ),
               const SizedBox(height: 20),
               const Text(
-                'Previous Appointments',
+                'Today Appointments',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
-              FutureBuilder<UserModel>(
-                future: _userData,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (snapshot.hasError || !snapshot.hasData) {
-                    return const Text("Error fetching user data");
-                  }
-
-                  final user = snapshot.data!;
-                  return StreamBuilder<List<AppointmentModel>>(
-                    stream: AppointmentService().getAppointmentsWhere(
-                      field: 'uId',
-                      isEqualTo: user.uid,
-                    ),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return const Center(child: Text("Error Loading Appointments"));
-                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return const Center(child: Text("No Previous Appointments"));
-                      } else {
-                        final List<AppointmentModel> appointments = snapshot.data!;
-                        return PreviousAppointments(previousAppointments: appointments);
-                      }
-                    },
-                  );
-                },
-              ),
+              // FutureBuilder<UserModel>(
+              //   future: _userData,
+              //   builder: (context, snapshot) {
+              //     if (snapshot.connectionState == ConnectionState.waiting) {
+              //       return const Center(child: CircularProgressIndicator());
+              //     }
+              //     if (snapshot.hasError || !snapshot.hasData) {
+              //       return const Text("Error fetching user data");
+              //     }
+              //
+              //     final user = snapshot.data!;
+              //     return StreamBuilder<List<AppointmentModel>>(
+              //       stream: AppointmentService().getAppointmentsWhere(
+              //         field: 'uId',
+              //         isEqualTo: user.uid,
+              //       ),
+              //       builder: (context, snapshot) {
+              //         if (snapshot.connectionState == ConnectionState.waiting) {
+              //           return const Center(child: CircularProgressIndicator());
+              //         } else if (snapshot.hasError) {
+              //           return const Center(child: Text("Error Loading Appointments"));
+              //         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              //           return const Center(child: Text("No Previous Appointments"));
+              //         } else {
+              //           final List<AppointmentModel> appointments = snapshot.data!;
+              //           return PreviousAppointments(previousAppointments: appointments,isAdmin: false,);
+              //         }
+              //       },
+              //     );
+              //   },
+              // ),
             ],
           ),
         ),

@@ -38,7 +38,7 @@ class _AppointmentListState extends State<AppointmentList> {
               } else {
                 final List<AppointmentModel> appointments = snapshot.data!;
                 // Pass the list of AppointmentModel to PreviousAppointments
-                return PreviousAppointments(previousAppointments: appointments);
+                return PreviousAppointments(previousAppointments: appointments,isAdmin: true,);
               }
             }),
       ),

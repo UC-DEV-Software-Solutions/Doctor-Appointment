@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_testing/screens/home/PreviousAppointmentScreen.dart';
 import 'package:firebase_testing/screens/home/doctorDetails.dart';
 import 'package:firebase_testing/screens/home/makeAppointment.dart';
 import 'package:firebase_testing/screens/home/profile.dart';
@@ -14,6 +15,7 @@ List<Widget> homeScreenLayouts = [
   const Home(),
   Makeappointment(),
   const Doctordetails(),
+  PreviousAppointmentScreen(),
   const Profile()
   // const AddPostScreen(),
   // const Text("Favorite"),

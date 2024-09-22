@@ -29,7 +29,7 @@ class AppointmentService{
           selectedDate: selectedDate,
           uId: uId,
           appointmentNumber: appointmentNumber,
-          status: 'pending',
+          status: 'Pending',
       );
 
       // Convert the Appointment to a map
@@ -97,4 +97,17 @@ class AppointmentService{
       return null; // No running appointment found
     }
   }
+
+  // Add this method in AppointmentService
+  Future<void> updateAppointmentStatus(String appointmentId, bool isCompleted) async {
+    try {
+      await _appointmentCollection.doc(appointmentId).update({
+        'status': isCompleted ? "Completed" : "Pending",
+      });
+      print("Appointment status updated to ${isCompleted ? 'Completed' : 'Pending'}");
+    } catch (error) {
+      print("Error updating appointment status: $error");
+    }
+  }
+
 }
