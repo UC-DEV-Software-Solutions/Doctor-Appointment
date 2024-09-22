@@ -9,6 +9,15 @@ class AppointmentService{
   Future<void> addAppointment(String name,String phoneNumber,int age,String doctorName,String reason,DateTime selectedDate,String uId) async{
     try{
 
+      // Step 1: Check the current number of appointments for the selected doctor and date
+      final QuerySnapshot snapshot = await _appointmentCollection
+          .where('doctorName', isEqualTo: doctorName)
+          .where('selectedDate', isEqualTo: selectedDate)
+          .get();
+
+      int appointmentNumber = snapshot.size + 1; // Next appointment number for the doctor on the selected day
+
+
       final appointment = AppointmentModel(
           aId: "",
           patientName: name,
@@ -18,7 +27,9 @@ class AppointmentService{
           reason: reason,
           createdAt: DateTime.now(),
           selectedDate: selectedDate,
-          uId: uId
+          uId: uId,
+          appointmentNumber: appointmentNumber,
+          status: 'pending',
       );
 
       // Convert the Appointment to a map
@@ -31,7 +42,7 @@ class AppointmentService{
       await docRef.update({"aId":docRef.id});
       print("Appointment Created. ID: ${docRef.id}");
 
-      print("Appointment Successfully added");
+      print("Appointment Created. ID: ${docRef.id}, Number: $appointmentNumber");
 
     }catch(error){
       print('Error adding Appointment $error');
@@ -69,4 +80,21 @@ class AppointmentService{
     }
   }
 
+  // Method to get the current running appointment for a doctor on a specific day
+  Future<AppointmentModel?> getCurrentRunningAppointment(
+      String doctorName, DateTime selectedDate) async {
+    final QuerySnapshot snapshot = await _appointmentCollection
+        .where('doctorName', isEqualTo: doctorName)
+        .where('selectedDate', isEqualTo: selectedDate)
+        .where('status', isEqualTo: 'in-progress') // Get the running appointment
+        .limit(1)
+        .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      var appointmentData = snapshot.docs.first.data() as Map<String, dynamic>;
+      return AppointmentModel.fromJSON(appointmentData, snapshot.docs.first.id);
+    } else {
+      return null; // No running appointment found
+    }
+  }
 }
