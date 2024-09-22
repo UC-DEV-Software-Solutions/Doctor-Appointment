@@ -9,7 +9,9 @@ class AppointmentModel{
   final String? reason;
   final DateTime createdAt;
   final DateTime selectedDate;
+  final int appointmentNumber;
   final String uId;
+  final String status;
 
   // Constructor
   AppointmentModel({
@@ -21,7 +23,9 @@ class AppointmentModel{
     this.reason,
     required this.createdAt,
     required this.selectedDate,
-    required this.uId
+    required this.appointmentNumber,
+    required this.uId,
+    required this.status,
 });
 
   // AppointmentData into json object
@@ -34,7 +38,9 @@ class AppointmentModel{
       'reason':reason,
       'createdAt':createdAt,
       'selectedDate': selectedDate,
-      'uId': uId
+      'uId': uId,
+      'appointmentNumber': appointmentNumber,
+      'status': status
     };
   }
 
@@ -49,7 +55,9 @@ class AppointmentModel{
         reason: doc['reason'],
         createdAt: (doc['createdAt'] as Timestamp).toDate(),
         selectedDate: (doc['selectedDate'] as Timestamp).toDate(),
-        uId: doc['uId']
+        uId: doc['uId'],
+        status: doc['status'],
+        appointmentNumber: doc['appointmentNumber']
     );
   }
 
