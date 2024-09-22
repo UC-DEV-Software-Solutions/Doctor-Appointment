@@ -40,7 +40,6 @@ class AppointmentService{
 
       // Update the appointment with the genarated id
       await docRef.update({"aId":docRef.id});
-      print("Appointment Created. ID: ${docRef.id}");
 
       print("Appointment Created. ID: ${docRef.id}, Number: $appointmentNumber");
 
