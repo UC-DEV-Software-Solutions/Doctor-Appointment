@@ -1,6 +1,5 @@
 import 'package:firebase_testing/constants/colours.dart';
 import 'package:firebase_testing/constants/styles.dart';
-import 'package:firebase_testing/screens/home/home.dart';
 import 'package:firebase_testing/services/auth.dart';
 import 'package:firebase_testing/widgets/mainBanner.dart';
 import 'package:flutter/material.dart';

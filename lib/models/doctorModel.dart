@@ -1,3 +1,5 @@
+import 'package:firebase_testing/models/appointmentModel.dart';
+
 class DoctorModel{
 
   final String id;
@@ -5,6 +7,7 @@ class DoctorModel{
   final String dtitle;
   final String dDescription;
   final String? doctorPic;
+  final List<AppointmentModel> appointments;
 
   // Constructor
   DoctorModel({
@@ -13,6 +16,7 @@ class DoctorModel{
     required this.dtitle,
     required this.dDescription,
     this.doctorPic,
+    this.appointments = const [],
   });
 
   // doctorData into json object
@@ -23,6 +27,7 @@ class DoctorModel{
       'dDescription':dDescription,
       'doctorPic':doctorPic,
       'id': id,
+
     };
   }
 

@@ -1,15 +1,11 @@
 import 'package:firebase_testing/widgets/doctorDropDown.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
 import '../../constants/colours.dart';
 import '../../models/UserModel.dart';
-import '../../models/appointmentModel.dart';
 import '../../services/appointment.dart';
 import '../../services/auth.dart';
 import '../../services/doctorDetails.dart';
 import '../../widgets/paymentSelectionDialog.dart';
-import '../../widgets/previousAppointments.dart';
 import '../../widgets/statusBanner.dart';
 import '../../widgets/textField.dart';
 

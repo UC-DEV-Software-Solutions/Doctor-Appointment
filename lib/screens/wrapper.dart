@@ -1,6 +1,5 @@
 import 'package:firebase_testing/models/UserModel.dart';
 import 'package:firebase_testing/screens/authentication/authenticate.dart';
-import 'package:firebase_testing/screens/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

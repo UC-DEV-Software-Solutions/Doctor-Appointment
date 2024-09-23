@@ -1,6 +1,4 @@
 import 'dart:typed_data';
-
-import 'package:firebase_testing/screens/home/home.dart';
 import 'package:firebase_testing/screens/wrapper.dart';
 import 'package:firebase_testing/widgets/mainBanner.dart';
 import 'package:firebase_testing/widgets/textField.dart';
@@ -9,9 +7,6 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../constants/colours.dart';
 import '../../constants/styles.dart';
-import '../../responsive/mobile_screen_layout.dart';
-import '../../responsive/responsive_layout_screen.dart';
-import '../../responsive/web_screen_layout.dart';
 import '../../services/auth.dart';
 import '../../utils/util_functions.dart';
 

@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_testing/models/UserModel.dart';
 import 'package:firebase_testing/providers/user_provider.dart';
 import 'package:firebase_testing/responsive/mobile_screen_layout.dart';
 import 'package:firebase_testing/responsive/responsive_layout_screen.dart';
 import 'package:firebase_testing/responsive/web_screen_layout.dart';
 import 'package:firebase_testing/screens/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_testing/services/auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

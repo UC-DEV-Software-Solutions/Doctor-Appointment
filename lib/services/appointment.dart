@@ -70,6 +70,25 @@ class AppointmentService{
             .toList());
   }
 
+  // Method to get appointments by doctorName and today's date
+  Stream<List<AppointmentModel>> getAppointmentsForToday({
+    required String doctorName,
+  }) {
+    // Get today's date with time stripped off
+    DateTime today = DateTime.now();
+    DateTime startOfDay = DateTime(today.year, today.month, today.day);
+
+    return _appointmentCollection
+        .where('doctorName', isEqualTo: doctorName)
+        .where('selectedDate', isGreaterThanOrEqualTo: Timestamp.fromDate(startOfDay))
+        .where('selectedDate', isLessThan: Timestamp.fromDate(startOfDay.add(Duration(days: 1))))
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+        .map((doc) => AppointmentModel.fromJSON(
+        doc.data() as Map<String, dynamic>, doc.id))
+        .toList());
+  }
+
   Future<void> deleteAppointment(String aId) async{
     try{
       await _appointmentCollection.doc(aId).delete();
