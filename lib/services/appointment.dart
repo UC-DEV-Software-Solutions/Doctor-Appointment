@@ -71,12 +71,12 @@ class AppointmentService{
   }
 
   // Method to get appointments by doctorName and today's date
-  Stream<List<AppointmentModel>> getAppointmentsForToday({
+  Stream<List<AppointmentModel>> getAppointmentsForSelectedDay({
     required String doctorName,
+    required DateTime selectedDate,
   }) {
-    // Get today's date with time stripped off
-    DateTime today = DateTime.now();
-    DateTime startOfDay = DateTime(today.year, today.month, today.day);
+    // Get date with time stripped off
+    DateTime startOfDay = DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
 
     return _appointmentCollection
         .where('doctorName', isEqualTo: doctorName)
