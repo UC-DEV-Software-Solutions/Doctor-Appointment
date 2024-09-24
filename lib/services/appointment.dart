@@ -78,10 +78,17 @@ class AppointmentService{
     // Get date with time stripped off
     DateTime startOfDay = DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
 
+    // Get the end of the day by adding one day and subtracting a microsecond
+    DateTime endOfDay = startOfDay.add(Duration(days: 1));
+
+    print("Doctor Name: $doctorName");
+    print("Start of Day: $startOfDay");
+    print("End of Day: $endOfDay");
+
     return _appointmentCollection
         .where('doctorName', isEqualTo: doctorName)
         .where('selectedDate', isGreaterThanOrEqualTo: Timestamp.fromDate(startOfDay))
-        .where('selectedDate', isLessThan: Timestamp.fromDate(startOfDay.add(Duration(days: 1))))
+        .where('selectedDate', isLessThan: Timestamp.fromDate(endOfDay))
         .snapshots()
         .map((snapshot) => snapshot.docs
         .map((doc) => AppointmentModel.fromJSON(
