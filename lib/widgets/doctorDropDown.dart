@@ -3,26 +3,35 @@ import 'package:flutter/material.dart';
 class DoctorDropdown extends StatefulWidget {
   final List<String> doctors; // List of doctors passed to the widget
   final Function(String?) onDoctorSelected; // Callback to pass the selected doctor
+  final String? selectedDoctor;
 
   const DoctorDropdown({
-    super.key,
+    Key? key,
     required this.doctors,
     required this.onDoctorSelected,
-  });
+    this.selectedDoctor,
+  }) : super(key: key);
 
   @override
   _DoctorDropdownState createState() => _DoctorDropdownState();
 }
 
 class _DoctorDropdownState extends State<DoctorDropdown> {
-  String? _selectedDoctor; // Stores the selected doctor
+  String? selectedDoctor;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize with the passed selectedDoctor from the parent widget
+    selectedDoctor = widget.selectedDoctor;
+  }
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
-      value: _selectedDoctor,
+      value: selectedDoctor ?? (widget.doctors.isNotEmpty ? widget.doctors[0] : null),
       decoration: const InputDecoration(
-        labelText: "Select Doctor",
+        labelText: "Select Your Doctor",
         border: OutlineInputBorder(),
       ),
       items: widget.doctors.map((doctor) {
@@ -33,7 +42,7 @@ class _DoctorDropdownState extends State<DoctorDropdown> {
       }).toList(),
       onChanged: (newValue) {
         setState(() {
-          _selectedDoctor = newValue; // Update the selected doctor locally
+          selectedDoctor = newValue; // Update the selected doctor locally
         });
         widget.onDoctorSelected(newValue); // Pass the selected doctor back via the callback
       },
