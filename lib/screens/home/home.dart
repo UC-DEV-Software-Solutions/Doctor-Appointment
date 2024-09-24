@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../../constants/colours.dart';
 import '../../constants/styles.dart';
+import '../../services/doctorDetails.dart';
+import '../../widgets/doctorDropDown.dart';
 import '../wrapper.dart';
 
 class Home extends StatefulWidget {
@@ -17,6 +19,37 @@ class _HomeState extends State<Home> {
 
   // create a obj from AuthService
   final AuthServices _auth = AuthServices();
+
+  List<String> _doctors = [];
+  String? _selectedDoctor;
+
+  // Callback function to handle doctor selection
+  void _handleDoctorSelection(String? selectedDoctor) {
+    setState(() {
+      _selectedDoctor = selectedDoctor;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchDoctors();
+  }
+  // Fetch doctors from Firestore and update the dropdown
+  Future<void> _fetchDoctors() async {
+    try {
+      DoctorDetailsService doctorService = DoctorDetailsService();
+      final doctorList = await doctorService.getDoctors().first;
+      setState(() {
+        _doctors = doctorList.map((doc) => doc.dName).toList();
+        if (_doctors.isNotEmpty) {
+          _selectedDoctor = _doctors.first;
+        }
+      });
+    } catch (error) {
+      print("Error fetching doctors: $error");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,69 +99,12 @@ class _HomeState extends State<Home> {
                   child: Form(
                       child: Column(
                         children: [
-                          // google
-                          const SizedBox(
-                            height: 20,
+                          DoctorDropdown(
+                            doctors: _doctors,
+                            onDoctorSelected: _handleDoctorSelection,
                           ),
-                          const Text(
-                              "Login with social accounts",
-                              style: descriptionStyle
-                          ),
-                          GestureDetector(
-                            // Sign in with Google
-                            onTap: (){},
-                            child: Center(
-                                child: Image.asset('assets/images/GoogleIcon.png',
-                                  height: 50,)
-                            ),
-                          ) ,
-                          const SizedBox(height: 20),
-                          // register
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text("Do you have an account?",
-                                  style: descriptionStyle,
-                                ),
-                                const SizedBox(width: 10,),
-                                GestureDetector(
-                                  // Land to the Register Page
-                                  onTap:(){},
-                                  child: const Text(
-                                    "LOG IN",
-                                    style: TextStyle(color: mainBlue,
-                                      fontWeight: FontWeight.w900,
-                                    ),
-                                  ),
-                                )]
-                          ),
-                          const SizedBox(height: 20),
-                          // button
-                          GestureDetector(
-                            // Method For Login User
-                            onTap: (){},
-
-                            child: Container(
-                                height: 40,
-                                width: 200,
-                                decoration: BoxDecoration(
-                                    color: mainBlue,
-                                    borderRadius: BorderRadius.circular(100),
-                                    border: Border.all(width: 2, color: mainBlue)),
-                                child: const Center(
-                                  child: Text("HOME",
-                                    style: TextStyle(color: Colors.white,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                )
-                            ),
-                          ),
-                          const SizedBox(height: 15,),
-                          // anonymous
-
                         ],
-                      )
-                  ),
+                      ))
                 )
               ],
             ),
