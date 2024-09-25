@@ -106,12 +106,12 @@ class _HomeState extends State<Home> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Carosel('carouselImages'),
-                // Center(
-                //   child: Image.asset(
-                //     'assets/images/covid-19.png',
-                //     height: 400,
-                //   ),
-                // ),
+                Center(
+                  child: Image.asset(
+                    'assets/icon/icon.png',
+                    height: 400,
+                  ),
+                ),
                 const SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.all(4.0),
