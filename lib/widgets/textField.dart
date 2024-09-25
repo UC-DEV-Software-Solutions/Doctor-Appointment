@@ -8,13 +8,15 @@ class TextInputField extends StatelessWidget {
   final bool isPassword;
   final TextInputType inputKeyboardType;
   final String hintText;
+  final TextStyle? textStyle;
 
   const TextInputField({
     Key? key,
     required this.controller,
     required this.hintText,
     required this.inputKeyboardType,
-    required this.isPassword
+    required this.isPassword,
+    this.textStyle,
 }) : super(key :key);
 
   @override
@@ -24,6 +26,7 @@ class TextInputField extends StatelessWidget {
       decoration: textInputDecorations.copyWith(hintText: hintText),
       keyboardType: inputKeyboardType,
       obscureText: isPassword,
+      style: textStyle
     );
   }
 }

@@ -8,7 +8,7 @@ const TextStyle descriptionStyle = TextStyle(
 );
 
 const TextStyle textFormStyle = TextStyle(
-  color: mainBlue,
+  color: mainWhite,
 );
 
 const textInputDecorations = InputDecoration(

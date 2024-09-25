@@ -148,6 +148,7 @@ class _Sign_InState extends State<Sign_In> {
                           controller: _emailController,
                           isPassword: false,
                           inputKeyboardType: TextInputType.emailAddress,
+                          textStyle: textFormStyle,
                         ),
                         const SizedBox(height: 20,),
                         // password
@@ -169,6 +170,7 @@ class _Sign_InState extends State<Sign_In> {
                           controller: _passwordController,
                           isPassword: true,
                           inputKeyboardType: TextInputType.visiblePassword,
+                          textStyle: textFormStyle,
                         ),
                         // Text(error, style: const TextStyle(color:Colors.red),),
                         // google
