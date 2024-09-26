@@ -84,6 +84,7 @@ flutter:
     - assets/images/GoogleIcon.png
     - assets/icon/icon.png
     - assets/images/CHATbackground.png
+    - assets/images/bot.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

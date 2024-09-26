@@ -6,7 +6,8 @@ final List<String> keywords = [
   'doctor availability',
   'refund policy',
   'reschedule appointment',
-  'contact support'
+  'contact',
+  'support'
 ];
 
 final List<String> responses = [
@@ -17,6 +18,7 @@ final List<String> responses = [
   'Our doctors are available Monday to Friday from 9 AM to 5 PM. Please specify which doctor you are inquiring about.',
   'Our refund policy allows you to receive a full refund if you cancel at least 24 hours before your appointment.',
   'To reschedule your appointment, please provide the new date and time you would like.',
+  'If you need support, please contact our helpdesk at support@example.com or call us at +94783758593.',
   'If you need support, please contact our helpdesk at support@example.com or call us at +94783758593.'
 
 ];

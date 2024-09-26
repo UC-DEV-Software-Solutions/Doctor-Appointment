@@ -110,7 +110,7 @@ class _HomeState extends State<Home> {
                 Center(
                   child: Image.asset(
                     'assets/icon/icon.png',
-                    height: 400,
+                    height: 250,
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -159,7 +159,7 @@ class _HomeState extends State<Home> {
           ),
           child: ClipOval(
             child: Image.asset(
-              'assets/icon/icon.png',
+              'assets/images/bot.png',
               width: 60,
               height: 60,
               fit: BoxFit.cover,
