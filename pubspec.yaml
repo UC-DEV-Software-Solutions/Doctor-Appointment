@@ -81,9 +81,6 @@ flutter:
   assets:
     - assets/images/covid-19.png
     - assets/images/GoogleIcon.png
-    - assets/images/19693.jpg
-    - assets/images/22917.jpg
-    - assets/images/48840.jpg
     - assets/icon/icon.png
 
 
