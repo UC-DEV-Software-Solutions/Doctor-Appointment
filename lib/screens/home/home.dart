@@ -1,3 +1,4 @@
+import 'package:firebase_testing/screens/home/chatBotScreen.dart';
 import 'package:firebase_testing/services/auth.dart';
 import 'package:firebase_testing/widgets/Carosel.dart';
 import 'package:flutter/material.dart';
@@ -109,7 +110,7 @@ class _HomeState extends State<Home> {
                 Center(
                   child: Image.asset(
                     'assets/icon/icon.png',
-                    height: 400,
+                    height: 250,
                   ),
                 ),
                 const SizedBox(height: 10),
@@ -140,11 +141,32 @@ class _HomeState extends State<Home> {
                   }
                 },
               )
-                  : const Center(child: Text("Please select a doctor."))
+                  : const Center(child: Text("Please select a doctor.")),
+                
                 ],
             ),
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) => ChatBotscreen(),
+            );
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: ClipOval(
+            child: Image.asset(
+              'assets/images/bot.png',
+              width: 60,
+              height: 60,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat, // Position at bottom-right
       ),
     );
   }
