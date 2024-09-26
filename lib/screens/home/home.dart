@@ -140,11 +140,29 @@ class _HomeState extends State<Home> {
                   }
                 },
               )
-                  : const Center(child: Text("Please select a doctor."))
+                  : const Center(child: Text("Please select a doctor.")),
+                
                 ],
             ),
           ),
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // desired functionality
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: ClipOval(
+            child: Image.asset(
+              'assets/icon/icon.png',
+              width: 60,
+              height: 60,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat, // Position at bottom-right
       ),
     );
   }
