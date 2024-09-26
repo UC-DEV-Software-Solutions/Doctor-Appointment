@@ -83,6 +83,7 @@ flutter:
     - assets/images/covid-19.png
     - assets/images/GoogleIcon.png
     - assets/icon/icon.png
+    - assets/images/CHATbackground.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

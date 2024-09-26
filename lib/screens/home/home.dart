@@ -1,3 +1,4 @@
+import 'package:firebase_testing/screens/home/chatBotScreen.dart';
 import 'package:firebase_testing/services/auth.dart';
 import 'package:firebase_testing/widgets/Carosel.dart';
 import 'package:flutter/material.dart';
@@ -148,7 +149,10 @@ class _HomeState extends State<Home> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            // desired functionality
+            showDialog(
+              context: context,
+              builder: (context) => ChatBotscreen(),
+            );
           },
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
