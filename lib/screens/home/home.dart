@@ -109,7 +109,7 @@ class _HomeState extends State<Home> {
                 Carosel('carouselImages'),
                 Center(
                   child: Image.asset(
-                    'assets/icon/icon.png',
+                    'assets/icons/icon.png',
                     height: 250,
                   ),
                 ),
