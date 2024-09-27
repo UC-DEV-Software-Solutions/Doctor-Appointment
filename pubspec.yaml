@@ -51,14 +51,12 @@ dependencies:
 
 
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: ^0.14.1
+  flutter_launcher_icons: ^0.13.1
 
-flutter_launcher_icons:
-  android: "launcher_icon"
-  image_path: "assets/icon/icon.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -82,7 +80,7 @@ flutter:
   assets:
     - assets/images/covid-19.png
     - assets/images/GoogleIcon.png
-    - assets/icon/icon.png
+    - assets/icons/icon.png
     - assets/images/CHATbackground.png
     - assets/images/bot.png
 
@@ -112,3 +110,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: "AppIcon"
+  image_path: "assets/icons/icon.png"
+  remove_alpha_ios: true
