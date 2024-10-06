@@ -170,7 +170,7 @@ class _MakeappointmentState extends State<Makeappointment> {
               const SizedBox(height: 10),
               CalendarDatePicker(
                 initialDate: DateTime.now(),
-                firstDate: DateTime(2000),
+                firstDate: DateTime.now(),
                 lastDate: DateTime(2100),
                 onDateChanged: (DateTime selectedDate) {
                   setState(() {
