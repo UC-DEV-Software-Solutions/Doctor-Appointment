@@ -57,6 +57,7 @@ class _Sign_InState extends State<Sign_In> {
     String result = await _auth.loginWithEmailAndPassword(
       email: email,
       password: password,
+      userType: 'User'
     );
 
     //show the snak bar if the user is created or not

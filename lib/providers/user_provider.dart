@@ -10,7 +10,7 @@ class UserProvider with ChangeNotifier {
 
   //methode for registering the user
   Future<void> refreshUser() async {
-    UserModel user = await _auth.getCurrentUser();
+    UserModel user = await _auth.getCurrentUser(userType: 'User');
     _user = user;
 
     //notify the listeners

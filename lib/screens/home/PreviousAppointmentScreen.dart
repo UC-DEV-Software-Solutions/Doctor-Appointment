@@ -22,7 +22,7 @@ class _PreviousAppointmentScreenState extends State<PreviousAppointmentScreen> {
   void initState() {
     super.initState();
     // Initialize your _userData with an actual future that fetches the user data.
-    _userData = AuthServices().getCurrentUser(); // Replace fetchUserData with your own function
+    _userData = AuthServices().getCurrentUser(userType: 'User');
   }
 
   @override
