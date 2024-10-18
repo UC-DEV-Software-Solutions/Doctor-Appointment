@@ -6,6 +6,7 @@ import 'package:firebase_testing/responsive/responsive_layout_screen.dart';
 import 'package:firebase_testing/responsive/web_screen_layout.dart';
 import 'package:firebase_testing/screens/wrapper.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_testing/services/local_notifications.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,7 @@ import '../constants/colours.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // to initialize firebase
+  await LocalNotificationsService.init(); // to initialize local Notifications
 
 
   // Check whether the WEB app or Mobile app run
