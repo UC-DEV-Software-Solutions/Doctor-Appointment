@@ -49,6 +49,7 @@ dependencies:
   ikchatbot: ^1.0.5
   flutter_local_notifications: ^17.2.3
   timezone: ^0.9.4
+  awesome_notifications: ^0.10.0
 
 
 
