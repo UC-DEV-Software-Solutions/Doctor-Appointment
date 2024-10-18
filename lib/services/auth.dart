@@ -13,8 +13,12 @@ class AuthServices{
 
 
   //get the current user details
-  Future<user_model.UserModel> getCurrentUser() async {
+  Future<user_model.UserModel> getCurrentUser({required String userType}) async {
     User currentUser = _auth.currentUser!;
+
+    // To give folderNames
+    String collectionName = userType == 'Admin' ? 'admins' : 'users';
+
     DocumentSnapshot snapshot =
     await _fireStore.collection('users').doc(currentUser.uid).get();
 
@@ -61,6 +65,7 @@ class AuthServices{
     required String password,
     required String userName,
     Uint8List? profilePic,
+    required String userType,
 }) async {
     String res = "An error occurred";
     try{
@@ -75,7 +80,7 @@ class AuthServices{
           photoURL = await StorageServices().uploadImage(folderName: "ProfileImages", isPrescription: false, file: profilePic);
         }
 
-        UserModel user = UserModel(uid: _auth.currentUser!.uid,email: email,userName: userName,profilePic: photoURL);
+        UserModel user = UserModel(uid: _auth.currentUser!.uid,email: email,userName: userName,profilePic: photoURL,userType:'User');
 
         if (userCredential.user != null){
           await _fireStore.collection('users').doc(_auth.currentUser!.uid).set(user.toJSON(),);
@@ -117,6 +122,7 @@ class AuthServices{
   Future<String> loginWithEmailAndPassword({
     required String email,
     required String password,
+    required String userType,
   }) async {
     String res = "An error occurred";
 

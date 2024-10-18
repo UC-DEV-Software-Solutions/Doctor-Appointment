@@ -6,12 +6,14 @@ class UserModel{
   final String email;
   final String userName;
   final String? profilePic;
+  final String userType;
 
   // constructor
   UserModel({
     required this.uid,
     required this.email,
     required this.userName,
+    required this.userType,
     this.profilePic,
   });
 
@@ -21,7 +23,8 @@ class UserModel{
       'uid':uid,
       'email':email,
       'userName':userName,
-      'profilePic':profilePic
+      'profilePic':profilePic,
+      'userType':userType,
     };
   }
 
@@ -31,7 +34,8 @@ class UserModel{
         uid: json['uid'],
         email: json['email'],
         userName: json['userName'],
-        profilePic: json['profilePic']
+        profilePic: json['profilePic'],
+        userType: json['userType']
     );
   }
 }

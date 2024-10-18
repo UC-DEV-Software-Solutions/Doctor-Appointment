@@ -1,5 +1,6 @@
 import 'package:firebase_testing/screens/home/chatBotScreen.dart';
 import 'package:firebase_testing/services/auth.dart';
+import 'package:firebase_testing/services/local_notifications.dart';
 import 'package:firebase_testing/widgets/Carosel.dart';
 import 'package:flutter/material.dart';
 
@@ -88,6 +89,7 @@ class _HomeState extends State<Home> {
               ),
               onPressed: () async {
                 await _auth.signOut();
+                LocalNotificationsService.showInstantNotification(title: "Signed Out", body: "You have successfully signed out of EZYDOC");
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(

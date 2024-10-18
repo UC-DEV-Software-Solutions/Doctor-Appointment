@@ -18,7 +18,7 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
-    _userData = AuthServices().getCurrentUser(); // Fetch user data on initialization
+    _userData = AuthServices().getCurrentUser(userType: 'User'); // Fetch user data on initialization
   }
 
   @override

@@ -55,7 +55,7 @@ class _MakeappointmentState extends State<Makeappointment> {
   void initState() {
     super.initState();
     _fetchDoctors();
-    _userData = AuthServices().getCurrentUser();
+    _userData = AuthServices().getCurrentUser(userType: 'User');
   }
 
   void _showPaymentDialog(BuildContext context) {
