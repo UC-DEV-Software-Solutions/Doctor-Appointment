@@ -1,12 +1,12 @@
 buildscript {
-    ext.kotlin_version = '2.0.0'
+    ext.kotlin_version = '2.1.0'
     repositories {
         google()
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.0'
+        classpath 'com.android.tools.build:gradle:8.6.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:4.3.15'
     }
@@ -16,6 +16,32 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+    }
+}
+
+// Ensure all subprojects use Java 17 and suppress obsolete -source/-target warnings
+subprojects {
+    afterEvaluate { proj ->
+        try {
+            proj.tasks.withType(org.gradle.api.tasks.compile.JavaCompile).configureEach { task ->
+                task.sourceCompatibility = JavaVersion.VERSION_17.toString()
+                task.targetCompatibility = JavaVersion.VERSION_17.toString()
+                // suppress obsolete source/target warnings
+                task.options.compilerArgs += ['-Xlint:-options']
+            }
+
+            proj.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach { kt ->
+                kt.kotlinOptions.jvmTarget = '17'
+                // be conservative with Kotlin compiler args
+                if (kt.kotlinOptions.freeCompilerArgs == null) {
+                    kt.kotlinOptions.freeCompilerArgs = ['-Xjsr305=strict']
+                } else {
+                    kt.kotlinOptions.freeCompilerArgs += ['-Xjsr305=strict']
+                }
+            }
+        } catch (e) {
+            // ignore projects that don't have those task types
+        }
     }
 }
 
