@@ -14,25 +14,83 @@ import '../constants/colours.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // to initialize firebase
-  await LocalNotificationsService.init(); // to initialize local Notifications
-
-
   // Check whether the WEB app or Mobile app run
-  if(kIsWeb){
-    await Firebase.initializeApp(
-      options: const FirebaseOptions(
-          apiKey: "AIzaSyBWqe6vziwfRcXCfSD6BLwAKixTO80vITY",
-          authDomain: "authfirebase-aa9b3.firebaseapp.com",
-          projectId: "authfirebase-aa9b3",
-          storageBucket: "authfirebase-aa9b3.appspot.com",
-          messagingSenderId: "845883872520",
-          appId: "1:845883872520:web:0de2aacfdb608e9fa448bd"),
-    );
-  }else{
-    await Firebase.initializeApp();  // to initialize firebase
+  if (kIsWeb) {
+    try {
+      await Firebase.initializeApp(
+        options: const FirebaseOptions(
+            apiKey: "AIzaSyBWqe6vziwfRcXCfSD6BLwAKixTO80vITY",
+            authDomain: "authfirebase-aa9b3.firebaseapp.com",
+            projectId: "authfirebase-aa9b3",
+            storageBucket: "authfirebase-aa9b3.appspot.com",
+            messagingSenderId: "845883872520",
+            appId: "1:845883872520:web:0de2aacfdb608e9fa448bd"),
+      );
+    } catch (e, st) {
+      // Show initialization error immediately
+      print('Firebase initializeApp (web) failed: $e');
+      runApp(MaterialApp(
+          home:
+              Scaffold(body: Center(child: Text('Firebase init error: $e')))));
+      return;
+    }
+  } else {
+    try {
+      await Firebase.initializeApp(); // to initialize firebase
+    } catch (e, st) {
+      print('Firebase initializeApp (iOS) failed: $e');
+      runApp(MaterialApp(
+          home: Scaffold(body: FirebaseInitErrorScreen(error: e.toString()))));
+      return;
+    }
   }
-  FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: false);
+  // Initialize local notifications after Firebase is ready
+  await LocalNotificationsService.init(); // to initialize local Notifications
+  FirebaseFirestore.instance.settings =
+      const Settings(persistenceEnabled: false);
   runApp(const MyApp());
+}
+
+class FirebaseInitErrorScreen extends StatelessWidget {
+  final String error;
+  const FirebaseInitErrorScreen({super.key, required this.error});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Firebase initialization failed')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Error: $error', style: const TextStyle(color: Colors.red)),
+              const SizedBox(height: 12),
+              const Text('Fix steps:',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
+              const Text(
+                  '- Download the GoogleService-Info.plist for your iOS app from the Firebase console.'),
+              const Text(
+                  '- Put the file into ios/Runner and add it to the Runner target in Xcode (check "Copy items if needed").'),
+              const Text('- Run the following commands in the project root:'),
+              const SizedBox(height: 8),
+              const Text('  cd ios'),
+              const Text('  pod install'),
+              const Text('  cd ..'),
+              const Text('  flutter clean'),
+              const Text('  flutter pub get'),
+              const Text('  flutter run -d <device-id>'),
+              const SizedBox(height: 12),
+              const Text(
+                  'If you prefer a temporary testing workaround, I can add an explicit iOS FirebaseOptions fallback into code (not recommended for production).'),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
